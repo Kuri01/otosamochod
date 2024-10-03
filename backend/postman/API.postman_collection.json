@@ -1,0 +1,364 @@
+{
+	"info": {
+		"_postman_id": "86d6a00d-4722-464e-b309-28cebb3abad7",
+		"name": "API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29382366"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"pm.collectionVariables.set('user_id', response.id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\",\n  \"plainPassword\": \"string\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost/register",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost/users/{{user_id}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"pm.collectionVariables.set('token', response.token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"string\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost/auth",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cars",
+			"item": [
+				{
+					"name": "Cars",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"pm.collectionVariables.set('car_id', response.id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/ld+json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 0,\n  \"brand\": \"string\",\n  \"model\": \"string\",\n  \"year\": 0,\n  \"mileage\": 0,\n  \"fuelType\": \"string\",\n  \"transmission\": \"string\",\n  \"bodyType\": \"string\",\n  \"color\": \"string\",\n  \"engineSize\": 0,\n  \"horsePower\": 0,\n  \"numberOfDoors\": 0,\n  \"condition\": \"string\",\n  \"location\": \"string\",\n  \"isSold\": true,\n  \"sellerContact\": \"string\",\n  \"vin\": \"string\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost/cars",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"cars"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'POST' \\\n  'https://localhost/cars' \\\n  -H 'accept: application/ld+json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 0,\n  \"brand\": \"string\",\n  \"model\": \"string\",\n  \"year\": 0,\n  \"mileage\": 0,\n  \"fuelType\": \"string\",\n  \"transmission\": \"string\",\n  \"bodyType\": \"string\",\n  \"color\": \"string\",\n  \"engineSize\": 0,\n  \"horsePower\": 0,\n  \"numberOfDoors\": 0,\n  \"condition\": \"string\",\n  \"location\": \"string\",\n  \"isSold\": true,\n  \"sellerContact\": \"string\",\n  \"vin\": \"string\"\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "Cars",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost/cars",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"cars"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'GET' \\\n  'https://localhost/cars?page=1' \\\n  -H 'accept: application/ld+json'"
+					},
+					"response": []
+				},
+				{
+					"name": "Car",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://localhost/cars/{{car_id}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"cars",
+								"{{car_id}}"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'GET' \\\n  'https://localhost/cars/1' \\\n  -H 'accept: application/json'"
+					},
+					"response": []
+				},
+				{
+					"name": "Cars",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 0,\n  \"brand\": \"string\",\n  \"model\": \"string\",\n  \"year\": 0,\n  \"mileage\": 0,\n  \"fuelType\": \"xd\",\n  \"transmission\": \"string\",\n  \"bodyType\": \"string\",\n  \"color\": \"string\",\n  \"engineSize\": 0,\n  \"horsePower\": 0,\n  \"numberOfDoors\": 0,\n  \"condition\": \"string\",\n  \"location\": \"string\",\n  \"isSold\": true,\n  \"sellerContact\": \"string\",\n  \"vin\": \"string\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost/cars/{{car_id}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"cars",
+								"{{car_id}}"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'PUT' \\\n  'https://localhost/cars/3' \\\n  -H 'accept: application/ld+json' \\\n  -H 'Content-Type: application/ld+json' \\\n  -d '{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 0,\n  \"brand\": \"string\",\n  \"model\": \"string\",\n  \"year\": 0,\n  \"mileage\": 0,\n  \"fuelType\": \"string\",\n  \"transmission\": \"string\",\n  \"bodyType\": \"string\",\n  \"color\": \"string\",\n  \"engineSize\": 0,\n  \"horsePower\": 0,\n  \"numberOfDoors\": 0,\n  \"condition\": \"string\",\n  \"location\": \"string\",\n  \"isSold\": true,\n  \"sellerContact\": \"string\",\n  \"vin\": \"string\"\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "Cars",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost/cars/{{car_id}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"cars",
+								"{{car_id}}"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'DELETE' \\\n  'https://localhost/cars/3' \\\n  -H 'accept: */*'"
+					},
+					"response": []
+				},
+				{
+					"name": "Cars",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/merge-patch+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 0,\n  \"brand\": \"string\",\n  \"model\": \"string\",\n  \"year\": 0,\n  \"mileage\": 0,\n  \"fuelType\": \"string\",\n  \"transmission\": \"string\",\n  \"bodyType\": \"string\",\n  \"color\": \"string\",\n  \"engineSize\": 0,\n  \"horsePower\": 0,\n  \"numberOfDoors\": 0,\n  \"condition\": \"string\",\n  \"location\": \"string\",\n  \"isSold\": true,\n  \"sellerContact\": \"string\",\n  \"vin\": \"string\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost/cars/{{car_id}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"cars",
+								"{{car_id}}"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'PATCH' \\\n  'https://localhost/cars/2' \\\n  -H 'accept: application/ld+json' \\\n  -H 'Content-Type: application/merge-patch+json' \\\n  -d '{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 0,\n  \"brand\": \"string\",\n  \"model\": \"string\",\n  \"year\": 0,\n  \"mileage\": 0,\n  \"fuelType\": \"string\",\n  \"transmission\": \"string\",\n  \"bodyType\": \"string\",\n  \"color\": \"string\",\n  \"engineSize\": 0,\n  \"horsePower\": 0,\n  \"numberOfDoors\": 0,\n  \"condition\": \"string\",\n  \"location\": \"string\",\n  \"isSold\": true,\n  \"sellerContact\": \"string\",\n  \"vin\": \"string\"\n}'"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "user_id",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "car_id",
+			"value": ""
+		}
+	]
+}
