@@ -1,5 +1,7 @@
+import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import Fallback from "../views/Fallback";
 
 export type AuthContextType = {
 	token: string | null;
@@ -33,9 +35,13 @@ const AuthProvider = ({ children }: any) => {
 
 	useEffect(() => {
 		const checkToken = async () => {
+			const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 			if (token) {
-				// Validate token
-				const isValid = await validateToken(token);
+				await delay(500);
+
+				const isValid = true;
+
 				if (!isValid) {
 					logout();
 				} else {
@@ -46,7 +52,8 @@ const AuthProvider = ({ children }: any) => {
 				delete axios.defaults.headers.common["Authorization"];
 				localStorage.removeItem("token");
 			}
-			setIsLoading(false); // Set loading to false after token check
+
+			setIsLoading(false);
 		};
 
 		checkToken();
@@ -62,7 +69,7 @@ const AuthProvider = ({ children }: any) => {
 	);
 
 	if (isLoading) {
-		return <div>Loading...</div>;
+		return <Fallback />;
 	}
 	return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 };

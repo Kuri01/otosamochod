@@ -1,8 +1,21 @@
-html {
-	min-width: 100vh;
-	min-height: 100vh;
+body,
+html,
+#root {
+	height: 100%;
 }
 
-body {
-	margin: 0;
+header,
+main,
+footer {
+	overflow: hidden;
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
 }

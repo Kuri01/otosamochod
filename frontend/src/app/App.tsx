@@ -1,19 +1,16 @@
-import { createTheme, ThemeProvider } from "@mui/material";
-import "./App.css";
-import { red } from "@mui/material/colors";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import AuthProvider from "./context/AuthContext";
 import Routes from "./Router";
 import Theme from "./themes";
 
 function App() {
 	return (
-		<div className="App">
-			<Theme>
-				<AuthProvider>
-					<Routes />
-				</AuthProvider>
-			</Theme>
-		</div>
+		<Theme>
+			<CssBaseline />
+			<AuthProvider>
+				<Routes />
+			</AuthProvider>
+		</Theme>
 	);
 }
 

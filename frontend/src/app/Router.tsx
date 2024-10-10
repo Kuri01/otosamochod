@@ -1,12 +1,13 @@
 import { createBrowserRouter, Navigate, redirect, RouterProvider } from "react-router-dom";
-import Main from "./pages/Main";
-import Error from "./pages/Error";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Main from "./modules/Dashboard/Dashboard";
+import Error from "./pages/Error/Error";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
 import { useAuth } from "./context/AuthContext";
 import { ProtectedRoute } from "./systems/ProtectedRoute";
-import UserDetails from "./pages/UserDetails";
+import UserDetails from "./modules/Settings/UserDetails";
+import Layout from "./pages/Portal/Layout";
 
 const Routes = () => {
 	const authenticatedRoutes = [
@@ -16,11 +17,11 @@ const Routes = () => {
 			children: [
 				{
 					path: "/",
-					element: <Main />
-				},
-				{
-					path: "/user-details",
-					element: <UserDetails />
+					element: <Layout />, // Wrap main components with the layout
+					children: [
+						{ path: "/", element: <Main /> },
+						{ path: "/user-details", element: <UserDetails /> }
+					]
 				}
 			]
 		}

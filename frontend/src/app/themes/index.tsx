@@ -7,18 +7,48 @@ interface ThemeProps {
 }
 
 const theme = createTheme({
+	shape: {
+		borderRadius: 12
+	},
 	palette: {
+		mode: "light",
 		primary: {
-			light: "#757ce8",
-			main: "#3f50b5",
-			dark: "#002884",
-			contrastText: "#fff"
+			main: "rgb(82, 61, 210)",
+			light: "rgb(195, 188, 242)"
 		},
 		secondary: {
-			light: "#ff7961",
-			main: "#f44336",
-			dark: "#ba000d",
-			contrastText: "#000"
+			main: "rgb(77, 175, 80)"
+		},
+
+		background: {
+			default: "#DBDBDB"
+		},
+		info: {
+			main: "#889FC6"
+		},
+		text: {
+			primary: "#000000",
+			secondary: "#000000"
+		}
+	},
+	typography: {
+		fontFamily: "Poppins"
+	},
+	components: {
+		MuiOutlinedInput: {
+			styleOverrides: {
+				root: {
+					"& .MuiOutlinedInput-notchedOutline": {
+						borderColor: "#8376D7"
+					},
+					"&:hover .MuiOutlinedInput-notchedOutline": {
+						borderColor: "#8376D7"
+					},
+					"&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+						borderColor: "#8376D7"
+					}
+				}
+			}
 		}
 	}
 });
