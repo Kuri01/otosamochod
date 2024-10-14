@@ -84,6 +84,18 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "pcf": "vendor/bin/php-cs-fixer fix",
+        "migration": [
+            "bin/console doctrine:migrations:diff"
+        ],
+        "migrate": [
+            "bin/console doctrine:migrations:migrate --no-interaction"
+        ],
+        "db-reset": [
+            "bin/console doctrine:database:drop --force",
+            "bin/console doctrine:database:create",
+            "bin/console doctrine:migrations:migrate --no-interaction"
         ]
     },
     "conflict": {

@@ -45,10 +45,6 @@ RUN set -eux; \
 ###< doctrine/doctrine-bundle ###
 ###< recipes ###
 
-RUN mkdir -p config/jwt \
-    && openssl genrsa -out config/jwt/private.pem 4096 \
-    && openssl rsa -in config/jwt/private.pem -pubout -outform PEM -out config/jwt/public.pem
-
 COPY --link frankenphp/conf.d/app.ini $PHP_INI_DIR/conf.d/
 COPY --link --chmod=755 frankenphp/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 COPY --link frankenphp/Caddyfile /etc/caddy/Caddyfile
