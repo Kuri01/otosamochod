@@ -14,12 +14,20 @@ services:
       #- /app/vendor
     environment:
       MERCURE_EXTRA_DIRECTIVES: demo
+      SERVER_NAME: ${SERVER_NAME:-http://localhost}, php:80
       # See https://xdebug.org/docs/all_settings#mode
       XDEBUG_MODE: "${XDEBUG_MODE:-off}"
     extra_hosts:
       # Ensure that host.docker.internal is correctly defined on Linux
       - host.docker.internal:host-gateway
     tty: true
+    ports:
+      # HTTP
+      - "8080:80"
+      # HTTPS
+      - "8081:443/tcp"
+      # HTTPS/3
+      - "8081:443/udp"
 
 ###> doctrine/doctrine-bundle ###
   database:
