@@ -40,10 +40,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost/register",
-							"protocol": "https",
+							"raw": "{{api_url}}/register",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
 							"path": [
 								"register"
@@ -58,10 +57,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost/users/{{user_id}}",
-							"protocol": "https",
+							"raw": "{{api_url}}/users/{{user_id}}",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
 							"path": [
 								"users",
@@ -102,10 +100,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost/auth",
-							"protocol": "https",
+							"raw": "{{api_url}}/auth",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
 							"path": [
 								"auth"
@@ -156,10 +153,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost/cars",
-							"protocol": "https",
+							"raw": "{{api_url}}/cars",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
 							"path": [
 								"cars"
@@ -181,10 +177,9 @@
 							}
 						],
 						"url": {
-							"raw": "https://localhost/cars",
-							"protocol": "https",
+							"raw": "{{api_url}}/cars",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
 							"path": [
 								"cars"
@@ -205,10 +200,9 @@
 							}
 						],
 						"url": {
-							"raw": "https://localhost/cars/{{car_id}}",
-							"protocol": "https",
+							"raw": "{{api_url}}/cars/{{car_id}}",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
 							"path": [
 								"cars",
@@ -239,10 +233,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost/cars/{{car_id}}",
-							"protocol": "https",
+							"raw": "{{api_url}}/cars/{{car_id}}",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
 							"path": [
 								"cars",
@@ -259,10 +252,9 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "https://localhost/cars/{{car_id}}",
-							"protocol": "https",
+							"raw": "{{api_url}}/cars/{{car_id}}",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
 							"path": [
 								"cars",
@@ -298,10 +290,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost/cars/{{car_id}}",
-							"protocol": "https",
+							"raw": "{{api_url}}/cars/{{car_id}}",
 							"host": [
-								"localhost"
+								"{{api_url}}"
 							],
 							"path": [
 								"cars",
