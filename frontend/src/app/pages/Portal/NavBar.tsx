@@ -1,170 +1,246 @@
-import * as React from "react";
+import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import { styled, SxProps, Theme } from "@mui/material";
-import { Link } from "react-router-dom";
+import {
+	Tabs,
+	Tab,
+	useMediaQuery,
+	useTheme,
+	SxProps,
+	Theme,
+	styled,
+	Button
+} from "@mui/material";
+import InfoIcon from "@mui/icons-material/Info";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import TimelineIcon from "@mui/icons-material/Timeline";
+import AddReactionIcon from "@mui/icons-material/AddReaction";
+import PersonIcon from "@mui/icons-material/Person";
+import {
+	List,
+	ListItemButton,
+	ListItemIcon,
+	ListItemText,
+	Menu
+} from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { Home } from "@mui/icons-material";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
-const pages = ["Kup teraz", "Aukcje"];
+import "./index.css";
 
-function ResponsiveAppBar() {
-	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+interface CustomImageProps {
+	src: string;
+	alt?: string;
+	sx?: SxProps<Theme>;
+}
 
-	interface CustomImageProps {
-		src: string;
-		alt?: string;
-		sx?: SxProps<Theme>;
-	}
+const StyledImg = styled("img")({});
 
-	const StyledImg = styled("img")({});
+const Logo: React.FC<CustomImageProps> = ({ src, alt, sx }) => {
+	return <StyledImg src={src} alt={alt} style={sx as React.CSSProperties} />;
+};
 
-	const Logo: React.FC<CustomImageProps> = ({ src, alt, sx }) => {
-		return <StyledImg src={src} alt={alt} style={sx as React.CSSProperties} />;
-	};
-	const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+function Navbar(props: any) {
+	const navigate = useNavigate();
+	const handleOpenNavMenu = (event: any) => {
 		setAnchorElNav(event.currentTarget);
 	};
-	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-		setAnchorElUser(event.currentTarget);
-	};
+	const [anchorElNav, setAnchorElNav] = React.useState(null);
 
 	const handleCloseNavMenu = () => {
 		setAnchorElNav(null);
 	};
 
-	const handleCloseUserMenu = () => {
-		setAnchorElUser(null);
-	};
-
+	const theme = useTheme();
+	const isMatch = useMediaQuery(theme.breakpoints.down("md"));
 	return (
-		<AppBar position="static">
+		<AppBar style={{ position: "relative" }}>
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
-					<Box sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}>
-						<Logo src={`${process.env.PUBLIC_URL}/logo.svg`} alt="OTOSAMOCHÓD" sx={{ width: "80px", height: "auto" }} />
-					</Box>
-
-					<Typography
-						variant="h6"
-						noWrap
-						component="a"
-						href="/"
-						sx={{
-							mr: 2,
-							display: { xs: "none", md: "flex" },
-							fontFamily: "monospace",
-							fontWeight: 700,
-							letterSpacing: ".3rem",
-							color: "inherit",
-							textDecoration: "none"
+					<Link
+						to={"/"}
+						style={{
+							textDecoration: "none",
+							color: "white",
+							display: "flex",
+							alignItems: "center"
 						}}
 					>
-						OTOSAMOCHÓD
-					</Typography>
+						<Typography
+							variant="h6"
+							noWrap
+							sx={{
+								mr: 2,
+								display: { xs: "none", md: "flex" },
+								fontFamily: "monospace",
+								fontWeight: 700,
+								letterSpacing: ".3rem",
+								color: "inherit",
+								textDecoration: "none",
+								alignItems: "center"
+							}}
+							className="cursorp"
+						>
+							<Logo
+								src={`${process.env.PUBLIC_URL}/logo.svg`}
+								alt="OTOSAMOCHÓD"
+								sx={{
+									display: { xs: "none", md: "flex" },
+									mr: 0.5,
+									width: "50px",
+									height: "50px"
+								}}
+							/>
+							Otosamochód
+						</Typography>
+					</Link>
 
 					<Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-						<IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">
+						<IconButton
+							size="large"
+							aria-label="account of current user"
+							aria-controls="menu-appbar"
+							aria-haspopup="true"
+							onClick={handleOpenNavMenu}
+							color="inherit"
+						>
 							<MenuIcon />
 						</IconButton>
+					</Box>
+
+					<Link to="/">
+						<Typography
+							variant="h5"
+							noWrap
+							sx={{
+								mr: 2,
+								display: { xs: "flex", md: "none" },
+								flexGrow: 1,
+								fontFamily: "monospace",
+								fontWeight: 700,
+								letterSpacing: ".3rem",
+								color: "inherit",
+								textDecoration: "none",
+								alignItems: "center"
+							}}
+						>
+							<Logo
+								src={`${process.env.PUBLIC_URL}/logo.svg`}
+								alt="OTOSAMOCHÓD"
+								sx={{
+									display: { xs: "flex", md: "none" },
+									mr: 0.5,
+									width: "50px",
+									height: "50px"
+								}}
+							/>
+							Otosamochód
+						</Typography>
+					</Link>
+					<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+						{isMatch ? (
+							<IconButton
+								size="large"
+								aria-label="account of current user"
+								aria-controls="menu-appbar"
+								aria-haspopup="true"
+								onClick={handleOpenNavMenu}
+								color="inherit"
+							>
+								<MenuIcon />
+							</IconButton>
+						) : (
+							<>
+								<Tabs centered sx={{ margin: "auto" }}>
+									<Tab
+										label={
+											<Link
+												to="/home"
+												style={{
+													textDecoration: "none",
+													color: "white"
+												}}
+											>
+												<Home /> Home
+											</Link>
+										}
+										style={{
+											textDecoration: "none",
+											color: "white"
+										}}
+										className="Tab1 animate__animated animate__zoomIn"
+									/>
+								</Tabs>
+							</>
+						)}
+					</Box>
+
+					<Box sx={{ flexGrow: 0, display: "flex" }}>
+						<Tooltip title="Profil">
+							<IconButton
+								sx={{ p: 0, mr: 1 }}
+								onClick={() => navigate("/user-details")}
+							>
+								<Avatar>
+									<PersonIcon />
+								</Avatar>
+							</IconButton>
+						</Tooltip>
+						<Tooltip title="Wyloguj">
+							<IconButton
+								aria-label="delete"
+								size="medium"
+								color="inherit"
+								sx={{
+									border: "1px solid",
+									borderColor: "currentColor",
+									borderRadius: "50%"
+								}}
+								onClick={() => {
+									localStorage.removeItem("token");
+									window.location.href = "/auth/login";
+								}}
+							>
+								<LogoutIcon fontSize="inherit" />
+							</IconButton>
+						</Tooltip>
+
 						<Menu
-							id="menu-appbar"
+							id="menu-appbar-avatar"
 							anchorEl={anchorElNav}
 							anchorOrigin={{
 								vertical: "bottom",
-								horizontal: "left"
+								horizontal: "right"
 							}}
 							keepMounted
 							transformOrigin={{
 								vertical: "top",
-								horizontal: "left"
+								horizontal: "right"
 							}}
 							open={Boolean(anchorElNav)}
 							onClose={handleCloseNavMenu}
-							sx={{ display: { xs: "block", md: "none" } }}
-						>
-							{pages.map((page) => (
-								<MenuItem key={page} onClick={handleCloseNavMenu}>
-									<Typography sx={{ textAlign: "center" }}>{page}</Typography>
-								</MenuItem>
-							))}
-						</Menu>
-					</Box>
-					<Box sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}>
-						<Logo src={`${process.env.PUBLIC_URL}/logo.svg`} alt="OTOSAMOCHÓD" sx={{ width: "80px", height: "auto" }} />
-					</Box>
-					<Typography
-						variant="h5"
-						noWrap
-						component="a"
-						href="/"
-						sx={{
-							mr: 2,
-							display: { xs: "flex", md: "none" },
-							flexGrow: 1,
-							fontFamily: "monospace",
-							fontWeight: 700,
-							letterSpacing: ".3rem",
-							color: "inherit",
-							textDecoration: "none"
-						}}
-					>
-						OTOSAMOCHÓD
-					</Typography>
-					<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-						{pages.map((page) => (
-							<Button key={page} onClick={handleCloseNavMenu} sx={{ my: 2, color: "white", display: "block" }}>
-								{page}
-							</Button>
-						))}
-					</Box>
-					<Box sx={{ flexGrow: 0 }}>
-						<Tooltip title="Open settings">
-							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-								<Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-							</IconButton>
-						</Tooltip>
-						<Menu
-							sx={{ mt: "45px" }}
-							id="menu-appbar"
-							anchorEl={anchorElUser}
-							anchorOrigin={{
-								vertical: "top",
-								horizontal: "right"
+							sx={{
+								display: { xs: "block", md: "none" }
 							}}
-							keepMounted
-							transformOrigin={{
-								vertical: "top",
-								horizontal: "right"
-							}}
-							open={Boolean(anchorElUser)}
-							onClose={handleCloseUserMenu}
 						>
-							<Link to={"/user-details"} color="inherit">
-								<MenuItem>
-									<Typography sx={{ textAlign: "center" }}>Szczegóły</Typography>
-								</MenuItem>
-							</Link>
-							<Link
-								to={"/auth/login"}
-								color="inherit"
-								onClick={() => {
-									localStorage.clear();
-								}}
-							>
-								<MenuItem>
-									<Typography sx={{ textAlign: "center" }}>Wyloguj</Typography>
-								</MenuItem>
-							</Link>
+							<List className="DrawerList">
+								<Link to="/home">
+									<ListItemButton>
+										<ListItemIcon>
+											<Home />
+										</ListItemIcon>
+										<ListItemText primary={"Home"} />
+									</ListItemButton>
+								</Link>
+							</List>
 						</Menu>
 					</Box>
 				</Toolbar>
@@ -172,4 +248,4 @@ function ResponsiveAppBar() {
 		</AppBar>
 	);
 }
-export default ResponsiveAppBar;
+export default Navbar;

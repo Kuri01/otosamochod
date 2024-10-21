@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Input, Grid, Typography, Paper, Box, styled, useTheme, TextField } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 interface FormValues {
 	email: string;
@@ -38,9 +39,9 @@ const PaperStyled = styled(Paper)`
 const Login: React.FC = () => {
 	const theme = useTheme();
 	const navigate = useNavigate();
+	const auth = useAuth();
 	const handleSubmit = (values: FormValues) => {
-		console.log("Form values: ", values);
-		localStorage.setItem("token", "123456");
+		auth?.login();
 		navigate("/");
 	};
 

@@ -1,4 +1,9 @@
-import { createBrowserRouter, Navigate, redirect, RouterProvider } from "react-router-dom";
+import {
+	createBrowserRouter,
+	Navigate,
+	redirect,
+	RouterProvider
+} from "react-router-dom";
 import Main from "./modules/Dashboard/Dashboard";
 import Error from "./pages/Error/Error";
 import Login from "./pages/Login/Login";
@@ -8,6 +13,8 @@ import { useAuth } from "./context/AuthContext";
 import { ProtectedRoute } from "./systems/ProtectedRoute";
 import UserDetails from "./modules/Settings/UserDetails";
 import Layout from "./pages/Portal/Layout";
+import path from "path";
+import Home from "./modules/Home/Home";
 
 const Routes = () => {
 	const authenticatedRoutes = [
@@ -20,7 +27,8 @@ const Routes = () => {
 					element: <Layout />, // Wrap main components with the layout
 					children: [
 						{ path: "/", element: <Main /> },
-						{ path: "/user-details", element: <UserDetails /> }
+						{ path: "/user-details", element: <UserDetails /> },
+						{ path: "/home", element: <Home /> }
 					]
 				}
 			]
@@ -48,7 +56,10 @@ const Routes = () => {
 
 	const auth = useAuth();
 
-	const router = createBrowserRouter([...publicRoutes, ...(!auth?.token ? [] : authenticatedRoutes)]);
+	const router = createBrowserRouter([
+		...publicRoutes,
+		...(!auth?.token ? [] : authenticatedRoutes)
+	]);
 
 	return <RouterProvider router={router} />;
 };

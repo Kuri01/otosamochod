@@ -2,10 +2,11 @@ import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import Fallback from "../views/Fallback";
+import { useNavigate } from "react-router-dom";
 
 export type AuthContextType = {
 	token: string | null;
-	setToken: (newToken: string) => void;
+	login: () => void;
 	logout: () => void;
 };
 
@@ -27,7 +28,7 @@ const AuthProvider = ({ children }: any) => {
 		try {
 			// Replace the URL with your actual token validation endpoint
 			const response = await axios.post("/api/validate-token", { token });
-			return response.status === 200; // Assume valid if status is 200
+			return response.status === 200;
 		} catch (error) {
 			return false;
 		}
@@ -35,7 +36,8 @@ const AuthProvider = ({ children }: any) => {
 
 	useEffect(() => {
 		const checkToken = async () => {
-			const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+			const delay = (ms: number) =>
+				new Promise((resolve) => setTimeout(resolve, ms));
 
 			if (token) {
 				await delay(500);
@@ -59,10 +61,14 @@ const AuthProvider = ({ children }: any) => {
 		checkToken();
 	}, [token]);
 
+	const login = () => {
+		setToken("123");
+	};
+
 	const contextValue = useMemo(
 		() => ({
 			token,
-			setToken,
+			login,
 			logout
 		}),
 		[token]
@@ -71,7 +77,9 @@ const AuthProvider = ({ children }: any) => {
 	if (isLoading) {
 		return <Fallback />;
 	}
-	return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
+	return (
+		<AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+	);
 };
 
 export const useAuth = () => {
