@@ -14,7 +14,7 @@ final readonly class CarSetOwnerProcessor implements ProcessorInterface
 {
     public function __construct(
         private ProcessorInterface $processor,
-        private Security $security
+        private Security $security,
     ) {
     }
 

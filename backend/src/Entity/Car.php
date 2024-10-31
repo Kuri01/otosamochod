@@ -34,7 +34,7 @@ class Car
 {
     #[Groups(['car:read'])]
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue('SEQUENCE')]
     #[ORM\Column(type: 'integer')]
     public ?int $id = null;
 
