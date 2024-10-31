@@ -32,7 +32,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"user@example.com\",\n  \"plainPassword\": \"string\"\n}",
+							"raw": "{\n  \"email\": \"user@example.com\",\n  \"plainPassword\": \"string\",\n  \"name\": \"Jan\",\n  \"surname\": \"Kowalski\",\n  \"phone\": \"+48 123 456 789\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -40,12 +40,98 @@
 							}
 						},
 						"url": {
-							"raw": "{{api_url}}/register",
+							"raw": "{{api_url}}/auth/register",
 							"host": [
 								"{{api_url}}"
 							],
 							"path": [
+								"auth",
 								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/auth/password-reset",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"auth",
+								"password-reset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post reset password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/auth/password-reset/ef6c76c1622b2847c98cea79addf6339705599bcc4ee471a9c",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"auth",
+								"password-reset",
+								"ef6c76c1622b2847c98cea79addf6339705599bcc4ee471a9c"
 							]
 						}
 					},
@@ -100,12 +186,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{api_url}}/auth",
+							"raw": "{{api_url}}/auth/login",
 							"host": [
 								"{{api_url}}"
 							],
 							"path": [
-								"auth"
+								"auth",
+								"login"
 							]
 						}
 					},

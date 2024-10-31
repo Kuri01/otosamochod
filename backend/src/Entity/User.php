@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Post(
-            uriTemplate: '/register',
+            uriTemplate: '/auth/register',
             validationContext: ['groups' => ['Default', 'user:create']],
             processor: UserPasswordHasher::class,
         ),
@@ -36,7 +36,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read'])]
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue('SEQUENCE')]
     public ?int $id = null;
 
     #[Assert\NotBlank]
@@ -57,6 +57,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Car::class)]
     private Collection $cars;
+
+    #[Assert\NotBlank]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
+    #[ORM\Column]
+    private ?string $name = null;
+
+    #[Assert\NotBlank]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
+    #[ORM\Column]
+    private ?string $surname = null;
+
+    #[Assert\NotBlank]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
+    #[ORM\Column]
+    private ?string $phone = null;
 
     public function __construct()
     {
@@ -147,5 +162,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getSurname(): ?string
+    {
+        return $this->surname;
+    }
+
+    public function setSurname(?string $surname): void
+    {
+        $this->surname = $surname;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): void
+    {
+        $this->phone = $phone;
     }
 }
