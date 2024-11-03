@@ -13,8 +13,6 @@ import { useAuth } from "./context/AuthContext";
 import { ProtectedRoute } from "./systems/ProtectedRoute";
 import UserDetails from "./modules/Settings/UserDetails";
 import Layout from "./pages/Portal/Layout";
-import path from "path";
-import Home from "./modules/Home/Home";
 
 const Routes = () => {
 	const authenticatedRoutes = [
@@ -24,11 +22,10 @@ const Routes = () => {
 			children: [
 				{
 					path: "/",
-					element: <Layout />, // Wrap main components with the layout
+					element: <Layout />,
 					children: [
 						{ path: "/", element: <Main /> },
-						{ path: "/user-details", element: <UserDetails /> },
-						{ path: "/home", element: <Home /> }
+						{ path: "/user-details", element: <UserDetails /> }
 					]
 				}
 			]
@@ -56,10 +53,7 @@ const Routes = () => {
 
 	const auth = useAuth();
 
-	const router = createBrowserRouter([
-		...publicRoutes,
-		...(!auth?.token ? [] : authenticatedRoutes)
-	]);
+	const router = createBrowserRouter([...publicRoutes, ...authenticatedRoutes]);
 
 	return <RouterProvider router={router} />;
 };

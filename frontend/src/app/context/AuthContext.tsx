@@ -2,36 +2,41 @@ import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import Fallback from "../views/Fallback";
-import { useNavigate } from "react-router-dom";
 
 export type AuthContextType = {
 	token: string | null;
-	login: () => void;
+	login: (newToken: string) => void;
 	logout: () => void;
 };
 
-const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext<AuthContextType>({
+	token: null,
+	login: () => {},
+	logout: () => {}
+} as AuthContextType);
 
 const AuthProvider = ({ children }: any) => {
 	const [token, setToken_] = useState(localStorage.getItem("token"));
 	const [isLoading, setIsLoading] = useState(true);
 
-	const setToken = (newToken: string) => {
+	const login = (newToken: string) => {
 		setToken_(newToken);
+		localStorage.setItem("token", newToken);
 	};
 
 	const logout = () => {
 		setToken_(null);
+		localStorage.clear();
 	};
 
-	const validateToken = async (token: string) => {
-		try {
-			// Replace the URL with your actual token validation endpoint
-			const response = await axios.post("/api/validate-token", { token });
-			return response.status === 200;
-		} catch (error) {
-			return false;
-		}
+	const isTokenValid = (token: string) => {
+		const tokenParts = token.split(".");
+		const encodedPayload = tokenParts[1];
+		const rawPayload = atob(encodedPayload);
+		const payload = JSON.parse(rawPayload);
+		const exp = payload.exp;
+		const now = Date.now() / 1000;
+		return now < exp;
 	};
 
 	useEffect(() => {
@@ -42,7 +47,7 @@ const AuthProvider = ({ children }: any) => {
 			if (token) {
 				await delay(500);
 
-				const isValid = true;
+				const isValid = isTokenValid(token);
 
 				if (!isValid) {
 					logout();
@@ -61,10 +66,6 @@ const AuthProvider = ({ children }: any) => {
 		checkToken();
 	}, [token]);
 
-	const login = () => {
-		setToken("123");
-	};
-
 	const contextValue = useMemo(
 		() => ({
 			token,
@@ -77,6 +78,7 @@ const AuthProvider = ({ children }: any) => {
 	if (isLoading) {
 		return <Fallback />;
 	}
+
 	return (
 		<AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
 	);

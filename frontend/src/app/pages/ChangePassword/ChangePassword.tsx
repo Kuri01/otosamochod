@@ -1,7 +1,15 @@
-import { Box, Button, Grid, TextField, Typography, useTheme } from "@mui/material";
+import {
+	Box,
+	Button,
+	Grid,
+	TextField,
+	Typography,
+	useTheme
+} from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { PaperStyled } from "../Login/Login";
 import { Link } from "react-router-dom";
+import useService from "../useService";
 
 interface FormValues {
 	email: string;
@@ -25,47 +33,106 @@ const validate = (values: FormValues) => {
 
 export default function ChangePassword() {
 	const theme = useTheme();
+	const Service = useService();
 
-	const handleSubmit = (values: FormValues) => {
-		console.log("Form values: ", values);
-		alert("Reset hasła!");
+	const handleSubmit = (
+		values: FormValues,
+		{ setSubmitting, setErrors }: any
+	) => {
+		alert("Przypomnienie hasła zostało wysłane");
 	};
 	return (
-		<Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} height={"100%"}>
+		<Box
+			display={"flex"}
+			flexDirection={"column"}
+			justifyContent={"center"}
+			alignItems={"center"}
+			height={"100%"}
+		>
 			<div>
-				<Typography variant="h2" gutterBottom textAlign="center" color={theme.palette.primary.main} fontWeight={"bold"}>
+				<Typography
+					variant="h2"
+					gutterBottom
+					textAlign="center"
+					color={theme.palette.primary.main}
+					fontWeight={"bold"}
+				>
 					otoSamochód.pl
 				</Typography>
 			</div>{" "}
-			<PaperStyled elevation={6} style={{ width: "600px", padding: "1rem 5rem" }}>
+			<PaperStyled
+				elevation={6}
+				style={{ width: "600px", padding: "1rem 5rem" }}
+			>
 				{" "}
-				<Typography variant="h4" gutterBottom textAlign="center" fontWeight={"bold"} padding={"2rem"}>
+				<Typography
+					variant="h4"
+					gutterBottom
+					textAlign="center"
+					fontWeight={"bold"}
+					padding={"2rem"}
+				>
 					Zapomniałeś hasła?
 				</Typography>
-				<Formik initialValues={initialValues} validate={validate} onSubmit={handleSubmit}>
+				<Formik
+					initialValues={initialValues}
+					validate={validate}
+					onSubmit={handleSubmit}
+				>
 					{({ isSubmitting }) => (
 						<Form>
 							<Grid container spacing={3}>
 								<Grid item xs={12}>
-									<Typography variant="subtitle1" gutterBottom fontWeight={"bolder"}>
+									<Typography
+										variant="subtitle1"
+										gutterBottom
+										fontWeight={"bolder"}
+									>
 										E-mail
 									</Typography>
-									<Field as={TextField} fullWidth type="email" name="email" placeholder="qaz123@gmail.com" autoComplete="email" />
+									<Field
+										as={TextField}
+										fullWidth
+										type="email"
+										name="email"
+										placeholder="qaz123@gmail.com"
+										autoComplete="email"
+									/>
 									<ErrorMessage name="email" component="div" />
 								</Grid>
 
 								<Grid item xs={12}>
-									<Button type="submit" variant="contained" color="primary" fullWidth disabled={isSubmitting}>
-										{isSubmitting ? "Wysyłanie przypomnienia..." : "Przypomnij hasło"}
+									<Button
+										type="submit"
+										variant="contained"
+										color="primary"
+										fullWidth
+										disabled={isSubmitting}
+									>
+										{isSubmitting
+											? "Wysyłanie przypomnienia..."
+											: "Przypomnij hasło"}
 									</Button>
 								</Grid>
 							</Grid>
 						</Form>
 					)}
 				</Formik>
-				<p style={{ display: "flex", justifyContent: "center", color: theme.palette.info.light }}>
+				<p
+					style={{
+						display: "flex",
+						justifyContent: "center",
+						color: theme.palette.info.light
+					}}
+				>
 					Znasz hasło?&nbsp;&nbsp;&nbsp;
-					<Link to="/auth/login" style={{ textDecoration: "none", color: theme.palette.secondary.main }}>
+					<Link
+						to="/auth/login"
+						style={{
+							textDecoration: "none",
+							color: theme.palette.secondary.main
+						}}
+					>
 						Zaloguj się
 					</Link>
 				</p>
