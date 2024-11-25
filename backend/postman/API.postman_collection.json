@@ -74,7 +74,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"user@example.com\"\n}",
+							"raw": "{\n  \"email\": \"test@test.pl\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -82,13 +82,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{api_url}}/auth/password-reset",
+							"raw": "{{api_url}}/auth/password-reset/",
 							"host": [
 								"{{api_url}}"
 							],
 							"path": [
 								"auth",
-								"password-reset"
+								"password-reset",
+								""
 							]
 						}
 					},
@@ -124,14 +125,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{api_url}}/auth/password-reset/ef6c76c1622b2847c98cea79addf6339705599bcc4ee471a9c",
+							"raw": "{{api_url}}/auth/password-reset/d61c15ff15fe33eae78696f782fe425967b10935c782425afb",
 							"host": [
 								"{{api_url}}"
 							],
 							"path": [
 								"auth",
 								"password-reset",
-								"ef6c76c1622b2847c98cea79addf6339705599bcc4ee471a9c"
+								"d61c15ff15fe33eae78696f782fe425967b10935c782425afb"
 							]
 						}
 					},
@@ -143,13 +144,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{api_url}}/users/{{user_id}}",
+							"raw": "{{api_url}}/users/me",
 							"host": [
 								"{{api_url}}"
 							],
 							"path": [
 								"users",
-								"{{user_id}}"
+								"me"
 							]
 						}
 					},
@@ -178,7 +179,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"string\"\n}",
+							"raw": "{\n  \"email\": \"test@test.pl\",\n  \"password\": \"ZAQ!2wsx\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -193,6 +194,40 @@
 							"path": [
 								"auth",
 								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/merge-patch+json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Superssss\",\n    \"surname\": \"Mom\",\n    \"phone\": \"987654321\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/users/me",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"me"
 							]
 						}
 					},
