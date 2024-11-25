@@ -18,6 +18,10 @@ class CurrentApiTokenProvider implements ProviderInterface
     {
         $securityToken = $this->security->getToken();
 
+        if (null === $securityToken) {
+            return null;
+        }
+
         return $securityToken->getUser();
     }
 }
