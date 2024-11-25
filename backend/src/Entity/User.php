@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use App\Repository\UserRepository;
+use App\State\CurrentApiTokenProvider;
 use App\State\UserPasswordHasher;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -23,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             validationContext: ['groups' => ['Default', 'user:create']],
             processor: UserPasswordHasher::class,
         ),
-        new Get(security: 'object.id == user.id'),
+        new Get(uriTemplate: '/users/me.{_format}', provider: CurrentApiTokenProvider::class),
     ],
     normalizationContext: ['groups' => ['user:read']],
     denormalizationContext: ['groups' => ['user:create', 'user:update']],
