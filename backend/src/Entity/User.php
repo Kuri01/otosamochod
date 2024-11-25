@@ -4,7 +4,10 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Dto\PutUserDto;
 use App\Repository\UserRepository;
 use App\State\CurrentApiTokenProvider;
 use App\State\UserPasswordHasher;
@@ -21,8 +24,15 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Post(
             uriTemplate: '/auth/register',
-            validationContext: ['groups' => ['Default', 'user:create']],
+            validationContext: ['groups' => ['user:create']],
             processor: UserPasswordHasher::class,
+        ),
+        new Patch(
+            uriTemplate: '/users/me.{_format}',
+            normalizationContext: ['groups' => ['user:read']],
+            denormalizationContext: ['groups' => ['user:update']],
+            read: true,
+            provider: CurrentApiTokenProvider::class,
         ),
         new Get(uriTemplate: '/users/me.{_format}', provider: CurrentApiTokenProvider::class),
     ],
@@ -40,9 +50,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue('SEQUENCE')]
     public ?int $id = null;
 
-    #[Assert\NotBlank]
-    #[Assert\Email]
-    #[Groups(['user:read', 'user:create', 'user:update'])]
+    #[Assert\NotBlank(groups: ['user:create'])]
+    #[Assert\Email(groups: ['user:create'])]
+    #[Groups(['user:read', 'user:create'])]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
@@ -50,7 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[Assert\NotBlank(groups: ['user:create'])]
-    #[Groups(['user:create', 'user:update'])]
+    #[Groups(['user:create'])]
     private ?string $plainPassword = null;
 
     #[ORM\Column(type: 'json')]
