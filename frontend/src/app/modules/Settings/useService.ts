@@ -2,28 +2,35 @@ import { useAlert } from "../../systems/useAlert";
 import useApi from "../../systems/useApi";
 
 interface UserDetails {
-    name: string;
-    surname: string;
-    email: string;
-    phone: string;
+	name: string;
+	surname: string;
+	email: string;
+	phone: string;
 }
 
+interface PatchMeRequest {
+	name: string;
+	surname: string;
+	phone: string;
+}
 
 const useService = () => {
 	const api = useApi();
-	const { showAlert } = useAlert();
 
-	const getUserDetails = async ({ id }: { id: number }) => {
-		try {
-			const response = await api.get("/users/"+id);
-			return response;
-		} catch (error) {
-			showAlert("Nie udało się pobrać danych", "error");
-		}
+	const getUserDetails = ({ id }: { id: number }) => {
+		return api.get("/users/" + id);
 	};
 
+	
+	const me = () => {
+		return api.get("/users/me");
+	};
 
-	return { getUserDetails };
+	const patchMe = (PatchMeRequest: PatchMeRequest) => {
+		return api.patch("/users/me", PatchMeRequest);
+	};
+
+	return { getUserDetails, me, patchMe };
 };
 
 export default useService;

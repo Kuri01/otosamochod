@@ -1,78 +1,117 @@
-import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import Fallback from "../views/Fallback";
+import useService, { User } from "../pages/useService";
 
 export type AuthContextType = {
 	token: string | null;
+	user: User | null;
 	login: (newToken: string) => void;
 	logout: () => void;
+	isLoading: boolean;
 };
 
 const AuthContext = createContext<AuthContextType>({
 	token: null,
+	user: null,
 	login: () => {},
-	logout: () => {}
+	logout: () => {},
+	isLoading: true
 } as AuthContextType);
 
 const AuthProvider = ({ children }: any) => {
-	const [token, setToken_] = useState(localStorage.getItem("token"));
+	const [token, setToken] = useState<string | null>(null);
+	const [user, setUser] = useState<User | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
 
 	const login = (newToken: string) => {
-		setToken_(newToken);
+		setToken(newToken);
 		localStorage.setItem("token", newToken);
 	};
 
 	const logout = () => {
-		setToken_(null);
+		setToken(null);
+		setUser(null);
 		localStorage.clear();
 	};
 
-	const isTokenValid = (token: string) => {
+	const decodeToken = (token: string) => {
 		const tokenParts = token.split(".");
 		const encodedPayload = tokenParts[1];
 		const rawPayload = atob(encodedPayload);
-		const payload = JSON.parse(rawPayload);
-		const exp = payload.exp;
+		return JSON.parse(rawPayload);
+	};
+
+	const isTokenValid = (token: string) => {
+		const { exp } = decodeToken(token);
 		const now = Date.now() / 1000;
 		return now < exp;
 	};
 
-	useEffect(() => {
-		const checkToken = async () => {
-			const delay = (ms: number) =>
-				new Promise((resolve) => setTimeout(resolve, ms));
+	const getUser = (): Promise<User> => {
+		const instance = axios.create({
+			baseURL: process.env.REACT_APP_API_URL,
+			headers: token ? { Authorization: `Bearer ${token}` } : {}
+		});
 
-			if (token) {
-				await delay(500);
+		return instance.get<User>("/users/me").then((res) => {
+			const user = {
+				id: res.data.id,
+				email: res.data.email,
+				name: res.data.name,
+				surname: res.data.surname
+			};
+			setUser(user);
+			return user;
+		});
+	};
 
-				const isValid = isTokenValid(token);
+	const fetchUserData = async () => {
+		const delay = (ms: number) =>
+			new Promise((resolve) => setTimeout(resolve, ms));
 
-				if (!isValid) {
-					logout();
-				} else {
-					axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-					localStorage.setItem("token", token);
-				}
-			} else {
-				delete axios.defaults.headers.common["Authorization"];
-				localStorage.removeItem("token");
-			}
+		await delay(500);
 
+		if (!token) {
 			setIsLoading(false);
-		};
+			return;
+		}
 
-		checkToken();
+		if (!isTokenValid(token)) {
+			logout();
+			setIsLoading(false);
+			return;
+		}
+
+		await getUser().finally(() => {
+			setIsLoading(false);
+		});
+	};
+
+	useEffect(() => {
+		const storedToken = localStorage.getItem("token");
+		if (storedToken) {
+			setToken(storedToken);
+		} else {
+			setIsLoading(false);
+		}
+	}, []);
+
+	useEffect(() => {
+		if (token) {
+			fetchUserData();
+		}
 	}, [token]);
 
 	const contextValue = useMemo(
 		() => ({
 			token,
+			user,
 			login,
-			logout
+			logout,
+			isLoading
 		}),
-		[token]
+		[token, user, isLoading]
 	);
 
 	if (isLoading) {

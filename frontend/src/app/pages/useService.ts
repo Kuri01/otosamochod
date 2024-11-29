@@ -18,6 +18,17 @@ interface LoginResponse {
 	token: string;
 }
 
+interface PasswordReset {
+	email: string;
+}
+
+export interface User {
+	email: string;
+	id: number;
+	name: string;
+	surname: string;
+}
+
 const useService = () => {
 	const api = useApi();
 
@@ -29,7 +40,15 @@ const useService = () => {
 		return api.post("/auth/register", data);
 	};
 
-	return { login, register };
+	const passwordReset = (data: PasswordReset) => {
+		return api.post("/auth/password-reset/", data);
+	};
+
+	const me = () => {
+		return api.get<User>("/users/me");
+	};
+
+	return { login, register, passwordReset, me };
 };
 
 export default useService;

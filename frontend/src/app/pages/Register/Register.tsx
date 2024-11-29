@@ -1,16 +1,18 @@
 import {
 	Box,
 	Button,
-	Grid,
+	styled,
 	TextField,
 	Typography,
-	useTheme
+	useTheme,
+	Grid
 } from "@mui/material";
 import { PaperStyled } from "../Login/Login";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import useService from "../useService";
 import { useAlert } from "../../systems/useAlert";
+import { red } from "@mui/material/colors";
 
 interface FormValues {
 	name: string;
@@ -29,6 +31,21 @@ const initialValues: FormValues = {
 	password: "",
 	re_password: ""
 };
+
+const StyledErrorMessage = styled(ErrorMessage)({
+	color: red[600],
+	position: "absolute",
+	marginTop: "4px"
+});
+
+const StyledGrid = styled(Grid)({
+	padding: 0,
+	marginTop: "1rem",
+	"& .MuiGrid-item": {
+		paddingTop: "1rem",
+		paddingLeft: 0
+	}
+});
 
 const validate = (values: FormValues) => {
 	const errors: Partial<FormValues> = {};
@@ -73,7 +90,10 @@ export default function Register() {
 	const Service = useService();
 	const { showAlert } = useAlert();
 
-	const handleSubmit = async (values: FormValues, { resetForm }: any) => {
+	const handleSubmit = (
+		values: FormValues,
+		{ resetForm, setSubmitting }: any
+	) => {
 		const RegisterData = {
 			name: values.name,
 			surname: values.surname,
@@ -90,6 +110,9 @@ export default function Register() {
 			})
 			.catch(() => {
 				showAlert("Nie udało się zarejestrować", "error");
+			})
+			.finally(() => {
+				setSubmitting(false);
 			});
 	};
 
@@ -99,7 +122,6 @@ export default function Register() {
 			flexDirection={"column"}
 			justifyContent={"center"}
 			alignItems={"center"}
-			height={"100%"}
 		>
 			<div>
 				<Typography
@@ -116,6 +138,15 @@ export default function Register() {
 				elevation={6}
 				style={{ width: "600px", padding: "1rem 5rem" }}
 			>
+				<Typography
+					variant="h4"
+					gutterBottom
+					textAlign="center"
+					fontWeight={"bold"}
+					padding={"2rem"}
+				>
+					Rejestracja
+				</Typography>
 				<Formik
 					initialValues={initialValues}
 					validate={validate}
@@ -123,8 +154,8 @@ export default function Register() {
 				>
 					{({ isSubmitting }) => (
 						<Form>
-							<Grid container spacing={2}>
-								<Grid item xs={12}>
+							<StyledGrid container spacing={2}>
+								<StyledGrid item xs={12}>
 									<Typography
 										variant="subtitle1"
 										gutterBottom
@@ -139,9 +170,9 @@ export default function Register() {
 										placeholder="Wpisz imię"
 										autoComplete="name"
 									/>
-									<ErrorMessage name="name" component="div" />
-								</Grid>
-								<Grid item xs={12}>
+									<StyledErrorMessage name="name" component="div" />
+								</StyledGrid>
+								<StyledGrid item xs={12}>
 									<Typography
 										variant="subtitle1"
 										gutterBottom
@@ -156,9 +187,9 @@ export default function Register() {
 										placeholder="Wpisz nazwisko"
 										autoComplete="surname"
 									/>
-									<ErrorMessage name="surname" component="div" />
-								</Grid>
-								<Grid item xs={12}>
+									<StyledErrorMessage name="surname" component="div" />
+								</StyledGrid>
+								<StyledGrid item xs={12}>
 									<Typography
 										variant="subtitle1"
 										gutterBottom
@@ -173,9 +204,9 @@ export default function Register() {
 										placeholder="Wpisz email"
 										autoComplete="email"
 									/>
-									<ErrorMessage name="email" component="div" />
-								</Grid>
-								<Grid item xs={12}>
+									<StyledErrorMessage name="email" component="div" />
+								</StyledGrid>
+								<StyledGrid item xs={12}>
 									<Typography
 										variant="subtitle1"
 										gutterBottom
@@ -190,9 +221,9 @@ export default function Register() {
 										placeholder="Wpisz numer telefonu"
 										autoComplete="phone"
 									/>
-									<ErrorMessage name="phone" component="div" />
-								</Grid>
-								<Grid item xs={12}>
+									<StyledErrorMessage name="phone" component="div" />
+								</StyledGrid>
+								<StyledGrid item xs={12}>
 									<Typography
 										variant="subtitle1"
 										gutterBottom
@@ -208,9 +239,9 @@ export default function Register() {
 										placeholder="Wpisz hasło"
 										autoComplete="password"
 									/>
-									<ErrorMessage name="password" component="div" />
-								</Grid>
-								<Grid item xs={12}>
+									<StyledErrorMessage name="password" component="div" />
+								</StyledGrid>
+								<StyledGrid item xs={12}>
 									<Typography
 										variant="subtitle1"
 										gutterBottom
@@ -226,9 +257,9 @@ export default function Register() {
 										placeholder="Wpisz hasło"
 										autoComplete="re_password"
 									/>
-									<ErrorMessage name="re_password" component="div" />
-								</Grid>
-								<Grid item xs={12}>
+									<StyledErrorMessage name="re_password" component="div" />
+								</StyledGrid>
+								<StyledGrid item xs={12}>
 									<Button
 										type="submit"
 										variant="contained"
@@ -238,8 +269,8 @@ export default function Register() {
 									>
 										{isSubmitting ? "Rejestrowanie..." : "Utwórz konto"}
 									</Button>
-								</Grid>
-							</Grid>
+								</StyledGrid>
+							</StyledGrid>
 						</Form>
 					)}
 				</Formik>
@@ -265,3 +296,5 @@ export default function Register() {
 		</Box>
 	);
 }
+
+export {StyledErrorMessage,StyledGrid}

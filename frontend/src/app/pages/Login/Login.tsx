@@ -1,8 +1,6 @@
 import React from "react";
 import {
 	Button,
-	Input,
-	Grid,
 	Typography,
 	Paper,
 	Box,
@@ -10,11 +8,12 @@ import {
 	useTheme,
 	TextField
 } from "@mui/material";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import useService from "../useService";
 import { useAlert } from "../../systems/useAlert";
+import { StyledErrorMessage, StyledGrid } from "../Register/Register";
 
 interface FormValues {
 	email: string;
@@ -55,11 +54,7 @@ const Login: React.FC = () => {
 	const auth = useAuth();
 	const alert = useAlert();
 
-	const handleSubmit = (
-		values: FormValues,
-		{ setSubmitting, setErrors }: any
-	) => {
-
+	const handleSubmit = (values: FormValues, { setSubmitting }: any) => {
 		const data = {
 			email: values.email,
 			password: values.password
@@ -71,8 +66,10 @@ const Login: React.FC = () => {
 				alert.showAlert("Zalogowano pomyślnie", "success");
 				navigate("/");
 			})
-			.finally(() => {
+			.catch(() => {
 				alert.showAlert("Niepoprawne dane logowania", "error");
+			})
+			.finally(() => {
 				setSubmitting(false);
 			});
 	};
@@ -83,7 +80,6 @@ const Login: React.FC = () => {
 			flexDirection={"column"}
 			justifyContent={"center"}
 			alignItems={"center"}
-			height={"100%"}
 		>
 			<div>
 				<Typography
@@ -116,8 +112,8 @@ const Login: React.FC = () => {
 				>
 					{({ isSubmitting }) => (
 						<Form>
-							<Grid container spacing={3}>
-								<Grid item xs={12}>
+							<StyledGrid container spacing={3}>
+								<StyledGrid item xs={12}>
 									<Typography
 										variant="subtitle1"
 										gutterBottom
@@ -133,9 +129,10 @@ const Login: React.FC = () => {
 										placeholder="qaz123@gmail.com"
 										autoComplete="email"
 									/>
-								</Grid>
+									<StyledErrorMessage name="email" component="div" />
+								</StyledGrid>
 
-								<Grid item xs={12}>
+								<StyledGrid item xs={12}>
 									<div
 										style={{ display: "flex", justifyContent: "space-between" }}
 									>
@@ -164,9 +161,10 @@ const Login: React.FC = () => {
 										placeholder="Wpisz hasło"
 										autoComplete="current-password"
 									/>
-								</Grid>
+									<StyledErrorMessage name="password" component="div" />
+								</StyledGrid>
 
-								<Grid item xs={12}>
+								<StyledGrid item xs={12}>
 									<Button
 										type="submit"
 										variant="contained"
@@ -176,8 +174,8 @@ const Login: React.FC = () => {
 									>
 										{isSubmitting ? "Logowanie..." : "Zaloguj"}
 									</Button>
-								</Grid>
-							</Grid>
+								</StyledGrid>
+							</StyledGrid>
 						</Form>
 					)}
 				</Formik>

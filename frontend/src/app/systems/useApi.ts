@@ -29,7 +29,12 @@ const useApi = () => {
 		return response.data;
 	};
 
-	return { get, post, put, del };
+	const patch = async <T>(url: string, data: any) => {
+		const response = await instance.patch<T>(url, data);
+		return response.data;
+	};
+
+	return { get, post, put, del, patch };
 };
 
 export default useApi;

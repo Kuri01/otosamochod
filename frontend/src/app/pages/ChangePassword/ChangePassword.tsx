@@ -1,15 +1,10 @@
-import {
-	Box,
-	Button,
-	Grid,
-	TextField,
-	Typography,
-	useTheme
-} from "@mui/material";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
+import { Formik, Form, Field } from "formik";
 import { PaperStyled } from "../Login/Login";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useService from "../useService";
+import { useAlert } from "../../systems/useAlert";
+import { StyledErrorMessage, StyledGrid } from "../Register/Register";
 
 interface FormValues {
 	email: string;
@@ -34,12 +29,27 @@ const validate = (values: FormValues) => {
 export default function ChangePassword() {
 	const theme = useTheme();
 	const Service = useService();
+	const alert = useAlert();
+	const navigate = useNavigate();
 
 	const handleSubmit = (
 		values: FormValues,
 		{ setSubmitting, setErrors }: any
 	) => {
-		alert("Przypomnienie hasła zostało wysłane");
+		const data = {
+			email: values.email
+		};
+		Service.passwordReset(data)
+			.then(() => {
+				alert.showAlert("Przypomnienie hasła zostało wysłane", "success");
+			})
+			.catch(() => {
+				alert.showAlert("Wystąpił problem", "success");
+			})
+			.finally(() => {
+				setSubmitting(false);
+				navigate("/");
+			});
 	};
 	return (
 		<Box
@@ -47,7 +57,6 @@ export default function ChangePassword() {
 			flexDirection={"column"}
 			justifyContent={"center"}
 			alignItems={"center"}
-			height={"100%"}
 		>
 			<div>
 				<Typography
@@ -59,12 +68,11 @@ export default function ChangePassword() {
 				>
 					otoSamochód.pl
 				</Typography>
-			</div>{" "}
+			</div>
 			<PaperStyled
 				elevation={6}
 				style={{ width: "600px", padding: "1rem 5rem" }}
 			>
-				{" "}
 				<Typography
 					variant="h4"
 					gutterBottom
@@ -81,8 +89,8 @@ export default function ChangePassword() {
 				>
 					{({ isSubmitting }) => (
 						<Form>
-							<Grid container spacing={3}>
-								<Grid item xs={12}>
+							<StyledGrid container spacing={3}>
+								<StyledGrid item xs={12}>
 									<Typography
 										variant="subtitle1"
 										gutterBottom
@@ -98,10 +106,10 @@ export default function ChangePassword() {
 										placeholder="qaz123@gmail.com"
 										autoComplete="email"
 									/>
-									<ErrorMessage name="email" component="div" />
-								</Grid>
+									<StyledErrorMessage name="email" component="div" />
+								</StyledGrid>
 
-								<Grid item xs={12}>
+								<StyledGrid item xs={12}>
 									<Button
 										type="submit"
 										variant="contained"
@@ -113,8 +121,8 @@ export default function ChangePassword() {
 											? "Wysyłanie przypomnienia..."
 											: "Przypomnij hasło"}
 									</Button>
-								</Grid>
-							</Grid>
+								</StyledGrid>
+							</StyledGrid>
 						</Form>
 					)}
 				</Formik>
