@@ -10,6 +10,8 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\State\CarSetOwnerProcessor;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -22,9 +24,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
             security: 'is_granted("ROLE_USER")',
             processor: CarSetOwnerProcessor::class,
         ),
-        new Patch(security: 'is_granted("ROLE_USER") and object.owner === user'),
-        new Put(security: 'is_granted("ROLE_USER") and object.owner === user'),
-        new Delete(security: 'is_granted("ROLE_USER") and object.owner === user'),
+        new Patch(
+            security: 'is_granted("ROLE_USER") and object.owner === user',
+            processor: CarSetOwnerProcessor::class,
+        ),
+        new Put(
+            security: 'is_granted("ROLE_USER") and object.owner === user',
+            processor: CarSetOwnerProcessor::class,
+        ),
+        new Delete(
+            security: 'is_granted("ROLE_USER") and object.owner === user',
+            processor: CarSetOwnerProcessor::class,
+        ),
     ],
     normalizationContext: ['groups' => ['car:read']],
     denormalizationContext: ['groups' => ['car:create', 'car:update']],
@@ -116,8 +127,9 @@ class Car
     #[ORM\Column(type: 'string', length: 255)]
     public string $sellerContact;
 
-    #[ORM\Column(type: 'json', nullable: true)]
-    private ?array $images;
+    #[ORM\OneToMany(mappedBy: 'car', targetEntity: MediaObject::class, cascade: ['persist', 'remove'])]
+    #[Groups(['car:read'])]
+    public Collection $images;
 
     #[Groups(['car:read', 'car:create'])]
     #[ORM\Column(type: 'string', length: 17, nullable: true)]
@@ -126,13 +138,13 @@ class Car
     // Adding the Many-to-One relationship to User
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'cars')]
     #[ORM\JoinColumn(nullable: false)]
-    public UserInterface $owner;
+    public ?UserInterface $owner = null;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
-        $this->images = [];
+        $this->images = new ArrayCollection();
     }
 
     public function setUpdatedAt(): void

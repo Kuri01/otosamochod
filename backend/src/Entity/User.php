@@ -6,8 +6,6 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
-use App\Dto\PutUserDto;
 use App\Repository\UserRepository;
 use App\State\CurrentApiTokenProvider;
 use App\State\UserPasswordHasher;
