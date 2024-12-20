@@ -1,54 +1,64 @@
 import { useAlert } from "../systems/useAlert";
+import { Car } from "../../types/car";
 import useApi from "../systems/useApi";
 
 interface LoginData {
-	email: string;
-	password: string;
+  email: string;
+  password: string;
 }
 
 interface RegisterData {
-	name: string;
-	surname: string;
-	phone: string;
-	email: string;
-	plainPassword: string;
+  name: string;
+  surname: string;
+  phone: string;
+  email: string;
+  plainPassword: string;
 }
 
 interface LoginResponse {
-	token: string;
+  token: string;
 }
 
 interface PasswordReset {
-	email: string;
+  email: string;
 }
 
 export interface User {
-	email: string;
-	id: number;
-	name: string;
-	surname: string;
+  email: string;
+  id: number;
+  name: string;
+  surname: string;
 }
 
 const useService = () => {
-	const api = useApi();
+  const api = useApi();
 
-	const login = (data: LoginData) => {
-		return api.post<LoginResponse>("/auth/login", data);
-	};
+  const login = (data: LoginData) => {
+    return api.post<LoginResponse>("/auth/login", data);
+  };
 
-	const register = (data: RegisterData) => {
-		return api.post("/auth/register", data);
-	};
+  const register = (data: RegisterData) => {
+    return api.post("/auth/register", data);
+  };
 
-	const passwordReset = (data: PasswordReset) => {
-		return api.post("/auth/password-reset/", data);
-	};
+  const passwordReset = (data: PasswordReset) => {
+    return api.post("/auth/password-reset/", data);
+  };
 
-	const me = () => {
-		return api.get<User>("/users/me");
-	};
+  const me = () => {
+    return api.get<User>("/users/me");
+  };
+  const addCar = (carData: any) => {
+    return api.post("/cars", carData);
+  };
+  const getCars = async (page: number): Promise<Car[]> => {
+    const response = await api.get<{ "hydra:member": Car[] }>(
+      `/cars?page=${page}`
+    );
+    return response["hydra:member"];
+  };
 
-	return { login, register, passwordReset, me };
+  return { login, register, passwordReset, me, addCar, getCars };
 };
 
 export default useService;

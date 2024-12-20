@@ -1,3 +1,10 @@
+import CarList from "../../pages/CarList/CarList";
+
 export default function Main() {
-	return <div>Hello world!</div>;
+  return (
+    <div>
+      lista autek
+      <CarList />
+    </div>
+  );
 }

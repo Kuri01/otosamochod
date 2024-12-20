@@ -4,14 +4,14 @@ import Routes from "./Router";
 import Theme from "./themes";
 
 function App() {
-	return (
-		<Theme>
-			<CssBaseline />
-			<AuthProvider>
-				<Routes />
-			</AuthProvider>
-		</Theme>
-	);
+  return (
+    <Theme>
+      <CssBaseline />
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
+    </Theme>
+  );
 }
 
 export default App;
