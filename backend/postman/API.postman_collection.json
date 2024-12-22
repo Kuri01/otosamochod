@@ -179,7 +179,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"test@test.pl\",\n  \"password\": \"ZAQ!2wsx\"\n}",
+							"raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"string\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -399,12 +399,13 @@
 							{
 								"key": "Content-Type",
 								"value": "application/merge-patch+json",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 0,\n  \"brand\": \"string\",\n  \"model\": \"string\",\n  \"year\": 0,\n  \"mileage\": 0,\n  \"fuelType\": \"string\",\n  \"transmission\": \"string\",\n  \"bodyType\": \"string\",\n  \"color\": \"string\",\n  \"engineSize\": 0,\n  \"horsePower\": 0,\n  \"numberOfDoors\": 0,\n  \"condition\": \"string\",\n  \"location\": \"string\",\n  \"isSold\": true,\n  \"sellerContact\": \"string\",\n  \"vin\": \"string\"\n}",
+							"raw": "{\n  \"year\": 2000\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -422,6 +423,38 @@
 							]
 						},
 						"description": "Generated from cURL: curl -X 'PATCH' \\\n  'https://localhost/cars/2' \\\n  -H 'accept: application/ld+json' \\\n  -H 'Content-Type: application/merge-patch+json' \\\n  -d '{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 0,\n  \"brand\": \"string\",\n  \"model\": \"string\",\n  \"year\": 0,\n  \"mileage\": 0,\n  \"fuelType\": \"string\",\n  \"transmission\": \"string\",\n  \"bodyType\": \"string\",\n  \"color\": \"string\",\n  \"engineSize\": 0,\n  \"horsePower\": 0,\n  \"numberOfDoors\": 0,\n  \"condition\": \"string\",\n  \"location\": \"string\",\n  \"isSold\": true,\n  \"sellerContact\": \"string\",\n  \"vin\": \"string\"\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "Image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/grzegorz/Pictures/Screenshots/Screenshot From 2024-11-01 18-37-02.png"
+								},
+								{
+									"key": "car",
+									"value": "/cars/1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api_url}}/media_objects",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"media_objects"
+							]
+						}
 					},
 					"response": []
 				}
