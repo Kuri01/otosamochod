@@ -14,6 +14,7 @@ import { useAuth } from "./context/AuthContext";
 import { ProtectedRoute } from "./systems/ProtectedRoute";
 import UserDetails from "./modules/Settings/UserDetails";
 import Layout from "./pages/Portal/Layout";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 
 const Routes = () => {
   const authenticatedRoutes = [
@@ -37,23 +38,27 @@ const Routes = () => {
   ];
 
   const publicRoutes = [
-    {
-      path: "*",
-      element: <Error />,
-    },
-    {
-      path: "/auth/login",
-      element: <Login />,
-    },
-    {
-      path: "/auth/register",
-      element: <Register />,
-    },
-    {
-      path: "/auth/change-password",
-      element: <ChangePassword />,
-    },
-  ];
+		{
+			path: "*",
+			element: <Error />,
+		},
+		{
+			path: "/auth/login",
+			element: <Login />,
+		},
+		{
+			path: "/auth/register",
+			element: <Register />,
+		},
+		{
+			path: "/auth/change-password",
+			element: <ChangePassword />,
+		},	
+		{
+			path: "/forgot-password/:key",
+			element: <ForgotPassword />, 
+		},
+	];
 
   const auth = useAuth();
 
