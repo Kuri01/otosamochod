@@ -39,8 +39,11 @@ const AddCar: React.FC = () => {
     isSold: false,
     sellerContact: "",
     vin: "",
-    image: "",
+    images: [],
   });
+
+  const [images, setImages] = useState<File[]>([]);
+  const [previewUrls, setPreviewUrls] = useState<string[]>([]); // Podgląd zdjęć
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -52,15 +55,50 @@ const AddCar: React.FC = () => {
     });
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const files = Array.from(e.target.files);
+      setImages(files);
+
+      // Generowanie podglądów
+      const urls = files.map((file) => URL.createObjectURL(file));
+      setPreviewUrls(urls);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const response = await addCar(formData);
-      console.log("Success:", response);
+      const response = await addCar(formData, images); // Przekazujemy dane i zdjęcia
+      console.log("Sukces:", response);
       alert("Ogłoszenie zostało dodane!");
+      setFormData({
+        title: "",
+        description: "",
+        price: 0,
+        brand: "",
+        model: "",
+        year: 0,
+        mileage: 0,
+        fuelType: "",
+        transmission: "",
+        bodyType: "",
+        color: "",
+        engineSize: 0,
+        horsePower: 0,
+        numberOfDoors: 0,
+        condition: "",
+        location: "",
+        isSold: false,
+        sellerContact: "",
+        vin: "",
+        images: [],
+      });
+      setImages([]);
+      setPreviewUrls([]);
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Błąd:", error);
       alert("Wystąpił błąd podczas dodawania ogłoszenia.");
     }
   };
@@ -119,6 +157,26 @@ const AddCar: React.FC = () => {
           onChange={handleChange}
           required
         />
+        <Typography variant="body1" gutterBottom sx={{ mt: 2 }}>
+          Dodaj zdjęcia samochodu:
+        </Typography>
+        <input
+          type="file"
+          multiple
+          accept="image/*"
+          onChange={handleFileChange}
+        />
+        <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mt: 2 }}>
+          {previewUrls.map((url, index) => (
+            <img
+              key={index}
+              src={url}
+              alt={`Preview ${index + 1}`}
+              style={{ width: 100, height: 100, objectFit: "cover" }}
+            />
+          ))}
+        </Box>
+
         <TextField
           fullWidth
           label="Rok produkcji"
@@ -166,8 +224,6 @@ const AddCar: React.FC = () => {
           onChange={handleChange}
           required
         />
-
-        {/* Selecty */}
         <TextField
           select
           fullWidth

@@ -14,6 +14,7 @@ import { useAuth } from "./context/AuthContext";
 import { ProtectedRoute } from "./systems/ProtectedRoute";
 import UserDetails from "./modules/Settings/UserDetails";
 import Layout from "./pages/Portal/Layout";
+import CarDetails from "./pages/CarList/CarDetails";
 
 const Routes = () => {
   const authenticatedRoutes = [
@@ -30,6 +31,7 @@ const Routes = () => {
             //{ path: "/listings", element: <Listings /> },
             { path: "/add-car", element: <AddCar /> },
             { path: "/user-details", element: <UserDetails /> },
+            { path: "/cars/:id", element: <CarDetails /> },
           ],
         },
       ],
