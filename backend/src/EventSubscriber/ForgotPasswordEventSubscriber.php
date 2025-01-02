@@ -42,7 +42,7 @@ final readonly class ForgotPasswordEventSubscriber implements EventSubscriberInt
             ->htmlTemplate('reset_password/email.html.twig')
             ->context([
                 'reset_password_url' => sprintf(
-                    'localhost:8081/forgot-password/%s',
+                    'localhost:8009/forgot-password/%s',
                     $passwordToken->getToken()
                 ),
             ])
