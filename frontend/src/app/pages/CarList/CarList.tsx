@@ -8,6 +8,7 @@ import {
   Grid,
   CardMedia,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import useService from "../useService";
 import { Car } from "../../../types/car";
 
@@ -34,7 +35,7 @@ const CarList: React.FC = () => {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
+      <Typography variant="h4" component="h1" gutterBottom color="white">
         Lista samochodów
       </Typography>
 
@@ -51,49 +52,52 @@ const CarList: React.FC = () => {
       )}
 
       <Grid container spacing={3} sx={{ mt: 2 }}>
-        {cars.map((car, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                height: "100%",
-                boxShadow: 1,
-                borderRadius: 2,
-              }}
-            >
-              <Box sx={{ flex: 1 }}>
-                <CardContent>
-                  <Typography variant="h6" component="h2" gutterBottom>
-                    {car.title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    <strong>Brand:</strong> {car.brand}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    <strong>Model:</strong> {car.model}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    <strong>Year:</strong> {car.year}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    <strong>Mileage:</strong> {car.mileage} km
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    <strong>Fuel Type:</strong> {car.fuelType}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    <strong>Location:</strong> {car.location}
-                  </Typography>
-                </CardContent>
-              </Box>
-              <CardMedia
-                component="img"
-                sx={{ width: 150, objectFit: "cover" }}
-                image={car.image || "https://via.placeholder.com/150"} // Placeholder, jeśli brak obrazu
-                alt={car.title}
-              />
-            </Card>
+        {cars.map((car) => (
+          <Grid item xs={12} sm={6} md={4} key={car.id}>
+            <Link to={`/cars/${car.id}`} style={{ textDecoration: "none" }}>
+              <Card
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  height: "100%",
+                  boxShadow: 1,
+                  borderRadius: 2,
+                  cursor: "pointer",
+                }}
+              >
+                <Box sx={{ flex: 1 }}>
+                  <CardContent>
+                    <Typography variant="h6" component="h2" gutterBottom>
+                      {car.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      <strong>Brand:</strong> {car.brand}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      <strong>Model:</strong> {car.model}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      <strong>Year:</strong> {car.year}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      <strong>Mileage:</strong> {car.mileage} km
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      <strong>Fuel Type:</strong> {car.fuelType}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      <strong>Location:</strong> {car.location}
+                    </Typography>
+                  </CardContent>
+                </Box>
+                <CardMedia
+                  component="img"
+                  sx={{ width: 150, objectFit: "cover" }}
+                  image={car.images[0] || "https://via.placeholder.com/150"} // Placeholder, jeśli brak obrazu
+                  alt={car.title}
+                />
+              </Card>
+            </Link>
           </Grid>
         ))}
       </Grid>

@@ -1,4 +1,5 @@
 export interface Car {
+  id?: number;
   title: string;
   description: string;
   price: number;
@@ -18,5 +19,5 @@ export interface Car {
   isSold: boolean;
   sellerContact: string;
   vin: string;
-  image: string;
+  images: string[];
 }

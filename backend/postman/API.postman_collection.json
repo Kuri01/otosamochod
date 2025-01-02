@@ -312,6 +312,31 @@
 					"response": []
 				},
 				{
+					"name": "My cars",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}/cars/my",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"cars",
+								"my"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'GET' \\\n  'https://localhost/cars?page=1' \\\n  -H 'accept: application/ld+json'"
+					},
+					"response": []
+				},
+				{
 					"name": "Car",
 					"request": {
 						"method": "GET",

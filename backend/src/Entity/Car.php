@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\State\CarOwnedByUserProvider;
 use App\State\CarSetOwnerProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -19,6 +20,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     operations: [
         new GetCollection(),
+        new GetCollection(
+            uriTemplate: '/cars/my',
+            security: 'is_granted("ROLE_USER")',
+            provider: CarOwnedByUserProvider::class,
+        ),
         new Get(),
         new Post(
             security: 'is_granted("ROLE_USER")',
