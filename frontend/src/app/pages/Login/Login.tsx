@@ -1,13 +1,5 @@
-import React from "react";
-import {
-	Button,
-	Typography,
-	Paper,
-	Box,
-	styled,
-	useTheme,
-	TextField
-} from "@mui/material";
+import React, { useEffect } from "react";
+import { Button, Typography, Paper, Box, styled, useTheme, TextField } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -22,7 +14,7 @@ interface FormValues {
 
 const initialValues: FormValues = {
 	email: "",
-	password: ""
+	password: "",
 };
 
 const validate = (values: FormValues) => {
@@ -50,14 +42,20 @@ const PaperStyled = styled(Paper)`
 const Login: React.FC = () => {
 	const theme = useTheme();
 	const Service = useService();
-	const navigate = useNavigate();
 	const auth = useAuth();
 	const alert = useAlert();
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (auth.token) {
+			navigate("/", { replace: true });
+		}
+	}, []);
 
 	const handleSubmit = (values: FormValues, { setSubmitting }: any) => {
 		const data = {
 			email: values.email,
-			password: values.password
+			password: values.password,
 		};
 
 		Service.login(data)
@@ -75,103 +73,49 @@ const Login: React.FC = () => {
 	};
 
 	return (
-		<Box
-			display={"flex"}
-			flexDirection={"column"}
-			justifyContent={"center"}
-			alignItems={"center"}
-		>
+		<Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
 			<div>
-				<Typography
-					variant="h2"
-					gutterBottom
-					textAlign="center"
-					color={theme.palette.primary.main}
-					fontWeight={"bold"}
-				>
+				<Typography variant="h2" gutterBottom textAlign="center" color={theme.palette.primary.main} fontWeight={"bold"}>
 					otoSamochód.pl
 				</Typography>
 			</div>
-			<PaperStyled
-				elevation={6}
-				style={{ width: "600px", padding: "1rem 5rem" }}
-			>
-				<Typography
-					variant="h4"
-					gutterBottom
-					textAlign="center"
-					fontWeight={"bold"}
-					padding={"2rem"}
-				>
+			<PaperStyled elevation={6} style={{ width: "600px", padding: "1rem 5rem" }}>
+				<Typography variant="h4" gutterBottom textAlign="center" fontWeight={"bold"} padding={"2rem"}>
 					Zaloguj się
 				</Typography>
-				<Formik
-					initialValues={initialValues}
-					validate={validate}
-					onSubmit={handleSubmit}
-				>
+				<Formik initialValues={initialValues} validate={validate} onSubmit={handleSubmit}>
 					{({ isSubmitting }) => (
 						<Form>
 							<StyledGrid container spacing={3}>
 								<StyledGrid item xs={12}>
-									<Typography
-										variant="subtitle1"
-										gutterBottom
-										fontWeight={"bolder"}
-									>
+									<Typography variant="subtitle1" gutterBottom fontWeight={"bolder"}>
 										E-mail
 									</Typography>
-									<Field
-										as={TextField}
-										fullWidth
-										type="email"
-										name="email"
-										placeholder="qaz123@gmail.com"
-										autoComplete="email"
-									/>
+									<Field as={TextField} fullWidth type="email" name="email" placeholder="qaz123@gmail.com" autoComplete="email" />
 									<StyledErrorMessage name="email" component="div" />
 								</StyledGrid>
 
 								<StyledGrid item xs={12}>
-									<div
-										style={{ display: "flex", justifyContent: "space-between" }}
-									>
-										<Typography
-											variant="subtitle1"
-											gutterBottom
-											fontWeight={"bolder"}
-										>
+									<div style={{ display: "flex", justifyContent: "space-between" }}>
+										<Typography variant="subtitle1" gutterBottom fontWeight={"bolder"}>
 											Hasło
 										</Typography>
 										<Link
 											to="/auth/change-password"
 											style={{
 												textDecoration: "none",
-												color: theme.palette.secondary.main
+												color: theme.palette.secondary.main,
 											}}
 										>
 											Zapomniałeś hasła?
 										</Link>
 									</div>
-									<Field
-										as={TextField}
-										fullWidth
-										type="password"
-										name="password"
-										placeholder="Wpisz hasło"
-										autoComplete="current-password"
-									/>
+									<Field as={TextField} fullWidth type="password" name="password" placeholder="Wpisz hasło" autoComplete="current-password" />
 									<StyledErrorMessage name="password" component="div" />
 								</StyledGrid>
 
 								<StyledGrid item xs={12}>
-									<Button
-										type="submit"
-										variant="contained"
-										color="primary"
-										fullWidth
-										disabled={isSubmitting}
-									>
+									<Button type="submit" variant="contained" color="primary" fullWidth disabled={isSubmitting}>
 										{isSubmitting ? "Logowanie..." : "Zaloguj"}
 									</Button>
 								</StyledGrid>
@@ -183,7 +127,7 @@ const Login: React.FC = () => {
 					style={{
 						display: "flex",
 						justifyContent: "center",
-						color: theme.palette.info.light
+						color: theme.palette.info.light,
 					}}
 				>
 					Nie masz konta?&nbsp;&nbsp;&nbsp;
@@ -191,7 +135,7 @@ const Login: React.FC = () => {
 						to="/auth/register"
 						style={{
 							textDecoration: "none",
-							color: theme.palette.secondary.main
+							color: theme.palette.secondary.main,
 						}}
 					>
 						Zarejestruj się

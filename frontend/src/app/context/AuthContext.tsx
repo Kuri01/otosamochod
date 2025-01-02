@@ -67,11 +67,6 @@ const AuthProvider = ({ children }: any) => {
 	};
 
 	const fetchUserData = async () => {
-		const delay = (ms: number) =>
-			new Promise((resolve) => setTimeout(resolve, ms));
-
-		await delay(500);
-
 		if (!token) {
 			setIsLoading(false);
 			return;
