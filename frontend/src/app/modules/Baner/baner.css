@@ -1,0 +1,48 @@
+.banner-container {
+  display: flex;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.banner-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem;
+  color: rgb(0, 0, 0);
+  z-index: 1;
+}
+
+.banner-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 0;
+}
+
+.banner-image {
+  width: 75vh;
+  height: 75vh;
+  object-fit: cover;
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-radius: 25px;
+}
+
+.banner-left h3 {
+  margin-bottom: 20px;
+}
+
+.banner-left button {
+  margin-top: 10px;
+}
+.bigger-button {
+  padding: 1rem 2rem !important;
+  font-size: 1.2rem;
+  border-radius: 8px;
+}
