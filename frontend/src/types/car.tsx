@@ -19,5 +19,5 @@ export interface Car {
   isSold: boolean;
   sellerContact: string;
   vin: string;
-  images: string[];
+  images: any[];
 }

@@ -8,7 +8,7 @@ export default function Layout() {
 		<>
 			<NavBar />
 			<main>
-				<Container maxWidth="xl">
+				<Container maxWidth="xl"  style={{minWidth:'800px'}}>
 					<Outlet />
 				</Container>
 			</main>

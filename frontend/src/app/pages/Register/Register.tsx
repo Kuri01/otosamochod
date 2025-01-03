@@ -1,12 +1,4 @@
-import {
-	Box,
-	Button,
-	styled,
-	TextField,
-	Typography,
-	useTheme,
-	Grid
-} from "@mui/material";
+import { Box, Button, styled, TextField, Typography, useTheme, Grid, Checkbox } from "@mui/material";
 import { PaperStyled } from "../Login/Login";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
@@ -21,6 +13,7 @@ interface FormValues {
 	email: string;
 	password: string;
 	re_password: string;
+	checkbox: boolean;
 }
 
 const initialValues: FormValues = {
@@ -29,13 +22,14 @@ const initialValues: FormValues = {
 	phone: "",
 	email: "",
 	password: "",
-	re_password: ""
+	re_password: "",
+	checkbox: false,
 };
 
 const StyledErrorMessage = styled(ErrorMessage)({
 	color: red[600],
 	position: "absolute",
-	marginTop: "4px"
+	marginTop: "4px",
 });
 
 const StyledGrid = styled(Grid)({
@@ -43,8 +37,8 @@ const StyledGrid = styled(Grid)({
 	marginTop: "1rem",
 	"& .MuiGrid-item": {
 		paddingTop: "1rem",
-		paddingLeft: 0
-	}
+		paddingLeft: 0,
+	},
 });
 
 const validate = (values: FormValues) => {
@@ -81,6 +75,11 @@ const validate = (values: FormValues) => {
 	} else if (!/^\d{9}$/i.test(values.phone)) {
 		errors.phone = "Niepoprawny numer telefonu";
 	}
+
+	if (values.checkbox == false) {
+		errors.checkbox = false;
+	}
+
 	return errors;
 };
 
@@ -90,16 +89,13 @@ export default function Register() {
 	const Service = useService();
 	const { showAlert } = useAlert();
 
-	const handleSubmit = (
-		values: FormValues,
-		{ resetForm, setSubmitting }: any
-	) => {
+	const handleSubmit = (values: FormValues, { resetForm, setSubmitting }: any) => {
 		const RegisterData = {
 			name: values.name,
 			surname: values.surname,
 			email: values.email,
 			plainPassword: values.password,
-			phone: values.phone
+			phone: values.phone,
 		};
 
 		Service.register(RegisterData)
@@ -117,156 +113,70 @@ export default function Register() {
 	};
 
 	return (
-		<Box
-			display={"flex"}
-			flexDirection={"column"}
-			justifyContent={"center"}
-			alignItems={"center"}
-		>
+		<Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
 			<div>
-				<Typography
-					variant="h2"
-					gutterBottom
-					textAlign="center"
-					color={theme.palette.primary.main}
-					fontWeight={"bold"}
-				>
+				<Typography variant="h2" gutterBottom textAlign="center" color={theme.palette.primary.main} fontWeight={"bold"}>
 					otoSamochód.pl
 				</Typography>
 			</div>
-			<PaperStyled
-				elevation={6}
-				style={{ width: "600px", padding: "1rem 5rem" }}
-			>
-				<Typography
-					variant="h4"
-					gutterBottom
-					textAlign="center"
-					fontWeight={"bold"}
-					padding={"2rem"}
-				>
+			<PaperStyled elevation={6} style={{ width: "600px", padding: "1rem 5rem" }}>
+				<Typography variant="h4" gutterBottom textAlign="center" fontWeight={"bold"} padding={"2rem"}>
 					Rejestracja
 				</Typography>
-				<Formik
-					initialValues={initialValues}
-					validate={validate}
-					onSubmit={handleSubmit}
-				>
+				<Formik initialValues={initialValues} validate={validate} onSubmit={handleSubmit}>
 					{({ isSubmitting }) => (
 						<Form>
 							<StyledGrid container spacing={2}>
 								<StyledGrid item xs={12}>
-									<Typography
-										variant="subtitle1"
-										gutterBottom
-										fontWeight={"bolder"}
-									>
+									<Typography variant="subtitle1" gutterBottom fontWeight={"bolder"}>
 										Imię
 									</Typography>
-									<Field
-										as={TextField}
-										fullWidth
-										name="name"
-										placeholder="Wpisz imię"
-										autoComplete="name"
-									/>
+									<Field as={TextField} fullWidth name="name" placeholder="Wpisz imię" autoComplete="name" />
 									<StyledErrorMessage name="name" component="div" />
 								</StyledGrid>
 								<StyledGrid item xs={12}>
-									<Typography
-										variant="subtitle1"
-										gutterBottom
-										fontWeight={"bolder"}
-									>
+									<Typography variant="subtitle1" gutterBottom fontWeight={"bolder"}>
 										Nazwisko
 									</Typography>
-									<Field
-										as={TextField}
-										fullWidth
-										name="surname"
-										placeholder="Wpisz nazwisko"
-										autoComplete="surname"
-									/>
+									<Field as={TextField} fullWidth name="surname" placeholder="Wpisz nazwisko" autoComplete="surname" />
 									<StyledErrorMessage name="surname" component="div" />
 								</StyledGrid>
 								<StyledGrid item xs={12}>
-									<Typography
-										variant="subtitle1"
-										gutterBottom
-										fontWeight={"bolder"}
-									>
+									<Typography variant="subtitle1" gutterBottom fontWeight={"bolder"}>
 										Email
 									</Typography>
-									<Field
-										as={TextField}
-										fullWidth
-										name="email"
-										placeholder="Wpisz email"
-										autoComplete="email"
-									/>
+									<Field as={TextField} fullWidth name="email" placeholder="Wpisz email" autoComplete="email" />
 									<StyledErrorMessage name="email" component="div" />
 								</StyledGrid>
 								<StyledGrid item xs={12}>
-									<Typography
-										variant="subtitle1"
-										gutterBottom
-										fontWeight={"bolder"}
-									>
+									<Typography variant="subtitle1" gutterBottom fontWeight={"bolder"}>
 										Numer telefonu
 									</Typography>
-									<Field
-										as={TextField}
-										fullWidth
-										name="phone"
-										placeholder="Wpisz numer telefonu"
-										autoComplete="phone"
-									/>
+									<Field as={TextField} fullWidth name="phone" placeholder="Wpisz numer telefonu" autoComplete="phone" />
 									<StyledErrorMessage name="phone" component="div" />
 								</StyledGrid>
 								<StyledGrid item xs={12}>
-									<Typography
-										variant="subtitle1"
-										gutterBottom
-										fontWeight={"bolder"}
-									>
+									<Typography variant="subtitle1" gutterBottom fontWeight={"bolder"}>
 										Hasło
 									</Typography>
-									<Field
-										as={TextField}
-										fullWidth
-										type="password"
-										name="password"
-										placeholder="Wpisz hasło"
-										autoComplete="password"
-									/>
+									<Field as={TextField} fullWidth type="password" name="password" placeholder="Wpisz hasło" autoComplete="password" />
 									<StyledErrorMessage name="password" component="div" />
 								</StyledGrid>
 								<StyledGrid item xs={12}>
-									<Typography
-										variant="subtitle1"
-										gutterBottom
-										fontWeight={"bolder"}
-									>
+									<Typography variant="subtitle1" gutterBottom fontWeight={"bolder"}>
 										Potwierdź hasło
 									</Typography>
-									<Field
-										as={TextField}
-										fullWidth
-										type="password"
-										name="re_password"
-										placeholder="Wpisz hasło"
-										autoComplete="re_password"
-									/>
+									<Field as={TextField} fullWidth type="password" name="re_password" placeholder="Wpisz hasło" autoComplete="re_password" />
 									<StyledErrorMessage name="re_password" component="div" />
 								</StyledGrid>
+								<StyledGrid item xs={12} display={"flex"} justifyContent={"space-between"} alignItems={"center"}>
+									<Typography variant="subtitle1" gutterBottom fontWeight={"bolder"}>
+										Potwierdź regularmin
+									</Typography>
+									<Field as={Checkbox} fullWidth type="checkbox" name="checkbox" />
+								</StyledGrid>
 								<StyledGrid item xs={12}>
-									<Button
-										type="submit"
-										variant="contained"
-										color="primary"
-										fullWidth
-										disabled={isSubmitting}
-									>
+									<Button type="submit" variant="contained" color="primary" fullWidth disabled={isSubmitting}>
 										{isSubmitting ? "Rejestrowanie..." : "Utwórz konto"}
 									</Button>
 								</StyledGrid>
@@ -278,7 +188,7 @@ export default function Register() {
 					style={{
 						display: "flex",
 						justifyContent: "center",
-						color: theme.palette.info.light
+						color: theme.palette.info.light,
 					}}
 				>
 					Masz już konto?&nbsp;&nbsp;&nbsp;
@@ -286,7 +196,7 @@ export default function Register() {
 						to="/auth/login"
 						style={{
 							textDecoration: "none",
-							color: theme.palette.secondary.main
+							color: theme.palette.secondary.main,
 						}}
 					>
 						Zaloguj się
@@ -297,4 +207,4 @@ export default function Register() {
 	);
 }
 
-export {StyledErrorMessage,StyledGrid}
+export { StyledErrorMessage, StyledGrid };

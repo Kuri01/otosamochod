@@ -41,7 +41,6 @@ function stringAvatar(name: string) {
 function Navbar(props: any) {
   const navigate = useNavigate();
   const { user } = useAuth();
-  console.log(user);
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import useService from "../useService";
-import { Typography, TextField, Button, Box, MenuItem } from "@mui/material";
+import { Typography, TextField, Button, Box, MenuItem, Paper } from "@mui/material";
 import { Car } from "../../../types/car";
 
 const fuelTypes = ["Petrol", "Diesel", "Electric", "Hybrid"];
@@ -62,7 +62,6 @@ const AddCar: React.FC = () => {
 
     try {
       const response = await addCar(formData, images); // Przekazujemy dane i zdjęcia
-      console.log("Sukces:", response);
       alert("Ogłoszenie zostało dodane!");
       setFormData({
         title: "",
@@ -95,231 +94,68 @@ const AddCar: React.FC = () => {
   };
 
   return (
-    <Box sx={{ padding: 4, maxWidth: 800, margin: "0 auto" }}>
-      <Typography variant="h4" gutterBottom>
-        Dodaj Ogłoszenie
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          fullWidth
-          label="Tytuł"
-          name="title"
-          margin="normal"
-          value={formData.title}
-          onChange={handleChange}
-          required
-        />
-        <TextField
-          fullWidth
-          label="Opis"
-          name="description"
-          margin="normal"
-          value={formData.description}
-          onChange={handleChange}
-          multiline
-          rows={4}
-          required
-        />
-        <TextField
-          fullWidth
-          label="Cena"
-          name="price"
-          margin="normal"
-          type="number"
-          value={formData.price}
-          onChange={handleChange}
-          required
-        />
-        <TextField
-          fullWidth
-          label="Marka"
-          name="brand"
-          margin="normal"
-          value={formData.brand}
-          onChange={handleChange}
-          required
-        />
-        <TextField
-          fullWidth
-          label="Model"
-          name="model"
-          margin="normal"
-          value={formData.model}
-          onChange={handleChange}
-          required
-        />
-        <Typography variant="body1" gutterBottom sx={{ mt: 2 }}>
-          Dodaj zdjęcia samochodu:
-        </Typography>
-        <input
-          type="file"
-          multiple
-          accept="image/*"
-          onChange={handleFileChange}
-        />
-        <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mt: 2 }}>
-          {previewUrls.map((url, index) => (
-            <img
-              key={index}
-              src={url}
-              alt={`Preview ${index + 1}`}
-              style={{ width: 100, height: 100, objectFit: "cover" }}
-            />
-          ))}
-        </Box>
+		<Paper style={{ padding: "1rem", maxWidth: 800, margin: "1rem auto"}}>
+			<Typography variant="h4" gutterBottom>
+				Dodaj Ogłoszenie
+			</Typography>
+			<form onSubmit={handleSubmit}>
+				<TextField fullWidth label="Tytuł" name="title" margin="normal" value={formData.title} onChange={handleChange} required />
+				<TextField fullWidth label="Opis" name="description" margin="normal" value={formData.description} onChange={handleChange} multiline rows={4} required />
+				<TextField fullWidth label="Cena" name="price" margin="normal" type="number" value={formData.price} onChange={handleChange} required />
+				<TextField fullWidth label="Marka" name="brand" margin="normal" value={formData.brand} onChange={handleChange} required />
+				<TextField fullWidth label="Model" name="model" margin="normal" value={formData.model} onChange={handleChange} required />
+				<Typography variant="body1" gutterBottom sx={{ mt: 2 }}>
+					Dodaj zdjęcia samochodu:
+				</Typography>
+				<input type="file" multiple accept="image/*" onChange={handleFileChange} />
+				<Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mt: 2 }}>
+					{previewUrls.map((url, index) => (
+						<img key={index} src={url} alt={`Preview ${index + 1}`} style={{ width: 100, height: 100, objectFit: "cover" }} />
+					))}
+				</Box>
 
-        <TextField
-          fullWidth
-          label="Rok produkcji"
-          name="year"
-          margin="normal"
-          type="number"
-          value={formData.year}
-          onChange={handleChange}
-          required
-        />
-        <TextField
-          fullWidth
-          label="Przebieg (km)"
-          name="mileage"
-          margin="normal"
-          type="number"
-          value={formData.mileage}
-          onChange={handleChange}
-          required
-        />
-        <TextField
-          fullWidth
-          label="Kontakt"
-          name="sellerContact"
-          margin="normal"
-          value={formData.sellerContact}
-          onChange={handleChange}
-          required
-        />
-        <TextField
-          fullWidth
-          label="VIN"
-          name="vin"
-          margin="normal"
-          value={formData.vin}
-          onChange={handleChange}
-          required
-        />
-        <TextField
-          fullWidth
-          label="Lokalizacja"
-          name="location"
-          margin="normal"
-          value={formData.location}
-          onChange={handleChange}
-          required
-        />
-        <TextField
-          select
-          fullWidth
-          label="Rodzaj paliwa"
-          name="fuelType"
-          margin="normal"
-          value={formData.fuelType}
-          onChange={handleChange}
-          required
-        >
-          {fuelTypes.map((fuel) => (
-            <MenuItem key={fuel} value={fuel}>
-              {fuel}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          select
-          fullWidth
-          label="Skrzynia biegów"
-          name="transmission"
-          margin="normal"
-          value={formData.transmission}
-          onChange={handleChange}
-          required
-        >
-          {transmissions.map((trans) => (
-            <MenuItem key={trans} value={trans}>
-              {trans}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          select
-          fullWidth
-          label="Typ nadwozia"
-          name="bodyType"
-          margin="normal"
-          value={formData.bodyType}
-          onChange={handleChange}
-          required
-        >
-          {bodyTypes.map((body) => (
-            <MenuItem key={body} value={body}>
-              {body}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          select
-          fullWidth
-          label="Stan"
-          name="condition"
-          margin="normal"
-          value={formData.condition}
-          onChange={handleChange}
-          required
-        >
-          {conditions.map((cond) => (
-            <MenuItem key={cond} value={cond}>
-              {cond}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          fullWidth
-          label="Pojemność silnika (cm³)"
-          name="engineSize"
-          margin="normal"
-          type="number"
-          value={formData.engineSize}
-          onChange={handleChange}
-          required
-        />
-        <TextField
-          fullWidth
-          label="Moc (KM)"
-          name="horsePower"
-          margin="normal"
-          type="number"
-          value={formData.horsePower}
-          onChange={handleChange}
-          required
-        />
-        <TextField
-          fullWidth
-          label="Liczba drzwi"
-          name="numberOfDoors"
-          margin="normal"
-          type="number"
-          value={formData.numberOfDoors}
-          onChange={handleChange}
-          required
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          sx={{ mt: 2 }}
-        >
-          Dodaj ogłoszenie
-        </Button>
-      </form>
-    </Box>
-  );
+				<TextField fullWidth label="Rok produkcji" name="year" margin="normal" type="number" value={formData.year} onChange={handleChange} required />
+				<TextField fullWidth label="Przebieg (km)" name="mileage" margin="normal" type="number" value={formData.mileage} onChange={handleChange} required />
+				<TextField fullWidth label="Kontakt" name="sellerContact" margin="normal" value={formData.sellerContact} onChange={handleChange} required />
+				<TextField fullWidth label="VIN" name="vin" margin="normal" value={formData.vin} onChange={handleChange} required />
+				<TextField fullWidth label="Lokalizacja" name="location" margin="normal" value={formData.location} onChange={handleChange} required />
+				<TextField select fullWidth label="Rodzaj paliwa" name="fuelType" margin="normal" value={formData.fuelType} onChange={handleChange} required>
+					{fuelTypes.map((fuel) => (
+						<MenuItem key={fuel} value={fuel}>
+							{fuel}
+						</MenuItem>
+					))}
+				</TextField>
+				<TextField select fullWidth label="Skrzynia biegów" name="transmission" margin="normal" value={formData.transmission} onChange={handleChange} required>
+					{transmissions.map((trans) => (
+						<MenuItem key={trans} value={trans}>
+							{trans}
+						</MenuItem>
+					))}
+				</TextField>
+				<TextField select fullWidth label="Typ nadwozia" name="bodyType" margin="normal" value={formData.bodyType} onChange={handleChange} required>
+					{bodyTypes.map((body) => (
+						<MenuItem key={body} value={body}>
+							{body}
+						</MenuItem>
+					))}
+				</TextField>
+				<TextField select fullWidth label="Stan" name="condition" margin="normal" value={formData.condition} onChange={handleChange} required>
+					{conditions.map((cond) => (
+						<MenuItem key={cond} value={cond}>
+							{cond}
+						</MenuItem>
+					))}
+				</TextField>
+				<TextField fullWidth label="Pojemność silnika (cm³)" name="engineSize" margin="normal" type="number" value={formData.engineSize} onChange={handleChange} required />
+				<TextField fullWidth label="Moc (KM)" name="horsePower" margin="normal" type="number" value={formData.horsePower} onChange={handleChange} required />
+				<TextField fullWidth label="Liczba drzwi" name="numberOfDoors" margin="normal" type="number" value={formData.numberOfDoors} onChange={handleChange} required />
+				<Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
+					Dodaj ogłoszenie
+				</Button>
+			</form>
+		</Paper>
+	);
 };
 
 export default AddCar;
