@@ -295,16 +295,32 @@
 							{
 								"key": "Accept",
 								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"url": {
-							"raw": "{{api_url}}/cars",
+							"raw": "{{api_url}}/cars?order[price]=asc&brand=Toyota",
 							"host": [
 								"{{api_url}}"
 							],
 							"path": [
 								"cars"
+							],
+							"query": [
+								{
+									"key": "order[price]",
+									"value": "asc"
+								},
+								{
+									"key": "isSold",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "brand",
+									"value": "Toyota"
+								}
 							]
 						},
 						"description": "Generated from cURL: curl -X 'GET' \\\n  'https://localhost/cars?page=1' \\\n  -H 'accept: application/ld+json'"

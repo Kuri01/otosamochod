@@ -2,6 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -46,6 +51,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['car:read']],
     denormalizationContext: ['groups' => ['car:create', 'car:update']],
 )]
+#[ApiFilter(SearchFilter::class, properties: ['brand' => 'exact', 'model' => 'partial', 'location' => 'partial', 'color' => 'partial'])]
+#[ApiFilter(RangeFilter::class, properties: ['price', 'mileage', 'year'])]
+#[ApiFilter(BooleanFilter::class, properties: ['isSold'])]
+#[ApiFilter(OrderFilter::class, properties: ['price', 'year'], arguments: ['orderParameterName' => 'order'])]
 #[ORM\Entity]
 class Car
 {
