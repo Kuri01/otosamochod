@@ -106,10 +106,17 @@ const useService = () => {
 		return res;
 	};
 	const getUserCars = async (page: number): Promise<Car[]> => {
-		const response = await api.get<{ "hydra:member": Car[] }>(`/cars/my?page=${page}`);
+		const res = await api.get<{ "hydra:member": Car[] }>(`/cars/my?page=${page}`);
 
-		debugger;
-		return response["hydra:member"];
+		var result = res["hydra:member"];
+
+		for (let i = 0; i < result.length; i++) {
+			result[i].images = await api.get<any>(`/media_objects?page=` + result[i].id).then((res) => {
+				return res["hydra:member"];
+			});
+		}
+
+		return result;
 	};
 	const deleteCar = async (id: number): Promise<void> => {
 		try {

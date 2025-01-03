@@ -27,7 +27,7 @@ const CarList: React.FC = () => {
 
 	return (
 		<Box sx={{ p: 3 }}>
-			<Typography variant="h4" component="h1" gutterBottom color="white">
+			<Typography variant="h4" component="h1" gutterBottom>
 				Lista samochodów
 			</Typography>
 
@@ -47,7 +47,6 @@ const CarList: React.FC = () => {
 				{cars.map((car) => {
 					const previewImage = car.images[0]?.contentUrl ? "http://localhost:8080" + car.images[0].contentUrl : "https://via.placeholder.com/300";
 
-					console.log(car);
 					return (
 						<Grid item xs={12} sm={6} md={4} key={car.id}>
 							<Link to={`/cars/${car.id}`} style={{ textDecoration: "none" }}>
