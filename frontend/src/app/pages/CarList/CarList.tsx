@@ -21,7 +21,7 @@ const CarList: React.FC = () => {
     try {
       setLoading(true);
       const response = await getCars(page);
-      setCars((prevCars) => [...prevCars, ...response]);
+      setCars(() => [...response]);
     } catch (error) {
       console.error("Błąd przy pobieraniu samochodów", error);
     } finally {

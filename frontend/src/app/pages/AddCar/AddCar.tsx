@@ -1,14 +1,6 @@
 import React, { useState } from "react";
 import useService from "../useService";
-import {
-  Typography,
-  TextField,
-  Button,
-  Box,
-  MenuItem,
-  FormControlLabel,
-  Checkbox,
-} from "@mui/material";
+import { Typography, TextField, Button, Box, MenuItem } from "@mui/material";
 import { Car } from "../../../types/car";
 
 const fuelTypes = ["Petrol", "Diesel", "Electric", "Hybrid"];
@@ -60,7 +52,6 @@ const AddCar: React.FC = () => {
       const files = Array.from(e.target.files);
       setImages(files);
 
-      // Generowanie podglądów
       const urls = files.map((file) => URL.createObjectURL(file));
       setPreviewUrls(urls);
     }
@@ -288,8 +279,6 @@ const AddCar: React.FC = () => {
             </MenuItem>
           ))}
         </TextField>
-
-        {/* Liczbowe pola */}
         <TextField
           fullWidth
           label="Pojemność silnika (cm³)"
