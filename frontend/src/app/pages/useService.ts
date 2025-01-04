@@ -92,17 +92,29 @@ const useService = () => {
 		var result = response["hydra:member"];
 
 		for (let i = 0; i < result.length; i++) {
-			result[i].images = await api.get<any>(`/media_objects?page=` + result[i].id).then((res) => {
-				return res["hydra:member"];
-			});
+			const listOfURLs = await Promise.all(
+				result[i].images.map(async (image) => {
+					const newImage = await api.get<any>(image);
+					return newImage;
+				})
+			);
+
+			result[i].images = listOfURLs;
 		}
 
 		return result;
 	};
 	const getCarById = async (id: number) => {
 		var res = await api.get<Car>(`/cars/${id}`);
-		var images = await api.get<any>(`/media_objects?page=` + id);
-		res.images = images["hydra:member"];
+
+		const listOfURLs = await Promise.all(
+			res.images.map(async (image) => {
+				const newImage = await api.get<any>(image);
+				return newImage;
+			})
+		);
+
+		res.images = listOfURLs;
 		return res;
 	};
 	const getUserCars = async (page: number): Promise<Car[]> => {
@@ -111,9 +123,14 @@ const useService = () => {
 		var result = res["hydra:member"];
 
 		for (let i = 0; i < result.length; i++) {
-			result[i].images = await api.get<any>(`/media_objects?page=` + result[i].id).then((res) => {
-				return res["hydra:member"];
-			});
+			const listOfURLs = await Promise.all(
+				result[i].images.map(async (image) => {
+					const newImage = await api.get<any>(image);
+					return newImage;
+				})
+			);
+
+			result[i].images = listOfURLs;
 		}
 
 		return result;
