@@ -89,7 +89,7 @@ const CarDetails: React.FC = () => {
   }
 
   const currentImage = car.images[currentImageIndex]?.contentUrl
-    ? "http://localhost:8080" + car.images[currentImageIndex].contentUrl
+    ? process.env.REACT_APP_API_URL + car.images[currentImageIndex].contentUrl
     : "https://via.placeholder.com/300";
 
   return (

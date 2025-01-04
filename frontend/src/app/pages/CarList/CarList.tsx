@@ -54,7 +54,7 @@ const CarList: React.FC = () => {
       <Grid container spacing={3} sx={{ mt: 2 }}>
         {cars.map((car) => {
           const previewImage = car.images[0]?.contentUrl
-            ? "http://localhost:8080" + car.images[0].contentUrl
+            ? process.env.REACT_APP_API_URL + car.images[0].contentUrl
             : "https://via.placeholder.com/300";
 
           return (
