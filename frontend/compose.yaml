@@ -1,0 +1,7 @@
+services:
+  react:
+    build: ./
+    ports:
+      - 7770:8009
+    environment:
+      REACT_APP_API_URL: 'http://localhost:8080'
